@@ -1,6 +1,6 @@
 {
   "name": "vue-data-storage-sqlite-hook",
-  "version": "0.0.1-alpha",
+  "version": "0.0.1",
   "description": "Vue Hook for Capacitor Data Storage SQLite",
   "repository": {
     "type": "git",
