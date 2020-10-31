@@ -1,24 +1,58 @@
 {
-  "name": "vueproject",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-data-storage-sqlite-hook",
+  "version": "0.0.0",
+  "description": "Vue Hook for Capacitor Data Storage SQLite",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jepiqueau/vue-data-storage-sqlite-hook.git"
+  },
+  "keywords": [
+    "Vue",
+    "Hook",
+    "Capacitor",
+    "Storage",
+    "SQLite"
+  ],
+  "main": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "start": "node scripts/start.js",
+    "build": "npm run clean && npm run transpile && npm run copy-package",
+    "copy-package": "cp ./package.json ./dist/package.json",
+    "package": "npm pack ./dist",
+    "deploy": "npm run build && npm test && np",
+    "rollup": "rollup --config rollup.config.js",
+    "transpile": "tsc --module ES2015 --target es2017 --outDir dist",
+    "clean": "rimraf dist",
+    "build-old": "node scripts/build.js",
+    "test": "jest"
   },
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@capacitor/core": "^2.4.2",
+    "@types/jest": "^24.0.23",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
+    "capacitor-data-storage-sqlite": "^2.4.2-2",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0"
+    "eslint-plugin-vue": "^7.0.0-0",
+    "jest": "^24.9.0",
+    "jest-environment-jsdom-fourteen": "^0.1.0",
+    "np": "^6.5.0",
+    "replace": "^1.1.0",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^26.2.0",
+    "tslint": "^6.1.2",
+    "tslint-ionic-rules": "0.0.21",
+    "typedoc": "^0.18.0",
+    "typescript": "^3.9.6",
+    "uglify-js": "^3.2.0"
   },
   "eslintConfig": {
     "root": true,
@@ -38,5 +72,26 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "jest": {
+    "preset": "ts-jest",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "dist-transpiled",
+      "dist",
+      "test-app"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ]
+  },
+  "author": "Quéau Jean Pierre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jepiqueau/vue-data-storage-sqlite-hook/issues"
+  },
+  "homepage": "https://github.com/jepiqueau/vue-data-storage-sqlite-hook#readme"
 }
