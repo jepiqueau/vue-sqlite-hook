@@ -14,7 +14,7 @@ npm install --save-dev vue-data-storage-sqlite-hook
 ### Vue 3
  - [vue-datastoragesqlite-app] (https://github.com/jepiqueau/vue-datastoragesqlite-app)
 
-### Ionic/Vue
+### Ionic/Vue (to come)
  - [vue-data-storage-sqlite-app-starter] (https://github.com/jepiqueau/vue-data-storage-sqlite-app-starter)
 
 
@@ -41,8 +41,7 @@ Then use the hook inside a component
 
 <script >
 import { defineComponent, ref } from 'vue';
-//import { useStorageSQLite } from 'vue-data-storage-sqlite-hook/dist';
-import {useStorageSQLite} from '@../../../../vue-data-storage-sqlite-hook/dist';
+import { useStorageSQLite } from 'vue-data-storage-sqlite-hook/dist';
 
 export default defineComponent({
   name: 'DefaultTest',
