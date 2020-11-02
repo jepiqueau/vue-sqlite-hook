@@ -9,8 +9,9 @@ const allTrue = {
 }
 
 const featureMap = {
-    CapacitorDataStorageSqlite: {
-    useStorageSQLite: allTrue,    
+  CapacitorSQLite: {
+    open: {...allTrue, web: false},
+    useSQLite: {...allTrue, web: false},    
   }
 }
 

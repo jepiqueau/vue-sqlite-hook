@@ -1,16 +1,16 @@
 {
-  "name": "vue-data-storage-sqlite-hook",
-  "version": "0.0.2-1",
-  "description": "Vue Hook for Capacitor Data Storage SQLite",
+  "name": "vue-sqlite-hook",
+  "version": "0.0.0",
+  "description": "Vue Hook for @capacitor-community/sqlite",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jepiqueau/vue-data-storage-sqlite-hook.git"
+    "url": "git+https://github.com/jepiqueau/vue-sqlite-hook.git"
   },
   "keywords": [
     "Vue",
     "Hook",
     "Capacitor",
-    "Storage",
+    "Database",
     "SQLite"
   ],
   "main": "dist/esm/index.js",
@@ -32,6 +32,7 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@capacitor-community/sqlite": "^2.4.2-8",
     "@capacitor/core": "^2.4.2",
     "@types/jest": "^24.0.23",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -39,7 +40,6 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
-    "capacitor-data-storage-sqlite": "^2.4.2-2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
     "jest": "^24.9.0",
@@ -91,7 +91,7 @@
   "author": "Quéau Jean Pierre",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jepiqueau/vue-data-storage-sqlite-hook/issues"
+    "url": "https://github.com/jepiqueau/vue-sqlite-hook/issues"
   },
-  "homepage": "https://github.com/jepiqueau/vue-data-storage-sqlite-hook#readme"
+  "homepage": "https://github.com/jepiqueau/vue-sqlite-hook#readme"
 }
