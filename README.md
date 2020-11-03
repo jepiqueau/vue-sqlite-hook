@@ -5,11 +5,10 @@
 <br>
 <p align="center">
     <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
-    <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/github/license/jepiqueau/vue-sqlite-hook?style=flat-square" /></a>
+    <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/l/vue-sqlite-hook?style=flat-square" /></a>
 <br>
-  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/dw/jepiqueau/vue-sqlite-hook?style=flat-square" /></a>
-  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/v/jepiqueau/vue-sqlite-hook?style=flat-square" /></a>
-
+  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/dw/vue-sqlite-hook?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/v/vue-sqlite-hook?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
