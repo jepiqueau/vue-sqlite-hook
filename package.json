@@ -32,7 +32,7 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@capacitor-community/sqlite": "^2.4.2-8",
+    "@capacitor-community/sqlite": "^2.4.2-9",
     "@capacitor/core": "^2.4.2",
     "@types/jest": "^24.0.23",
     "@vue/cli-plugin-babel": "~4.5.0",

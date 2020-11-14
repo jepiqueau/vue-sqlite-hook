@@ -49,9 +49,15 @@ interface SQLiteResult extends AvailableResult {
                 => Promise<{result?: boolean, message?: string}>;
     addUpgradeStatement: (dbName: string, upgrade: VersionUpgrade)
                 => Promise<{result?: boolean, message?: string}>;
+    requestPermissions: () 
+                => Promise<{result?: boolean, message?: string}>;
+
 }
 export const availableFeatures = {
     useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
+}
+export const isPermissions = {
+    granted: true
 }
 /**
  * useSQLite Hook
@@ -60,19 +66,15 @@ export const availableFeatures = {
 export function useSQLite(): SQLiteResult {
     const { CapacitorSQLite } = Plugins;
     const platform = Capacitor.getPlatform();
-    console.log("*** platform " + platform);
     const mSQLite:any = CapacitorSQLite;
+    let permissionsListener: any = null;
+    isPermissions.granted = platform != "android" ? true : false;
 
     const androidPermissions = async () => {
-        console.log("%%% in androidPermissions platform " 
-                    + platform + "%%%");
         try {
-            console.log("before requesting permissions")
             await mSQLite.requestPermissions();
-            console.log("after requesting permissions")
             return { result: true };
         } catch (e) {
-            console.log("Error requesting permissions " + e);
             return { result: false,
                 message: "Error requesting permissions " + e};
         }   
@@ -94,9 +96,38 @@ export function useSQLite(): SQLiteResult {
             exportToJson: featureNotAvailableError,
             setSyncDate: featureNotAvailableError,
             addUpgradeStatement: featureNotAvailableError,
+            requestPermissions: featureNotAvailableError,
             ...notAvailable
         };
     }
+    /**
+     * 
+     */
+    const requestPermissions = async (): Promise<any> => {
+        return new Promise(async (resolve) => {
+            if(platform === "android") { 
+                permissionsListener = mSQLite.addListener(
+                        'androidPermissionsRequest', (e: any) => {
+                    if(e.permissionGranted === 0) {
+                        isPermissions.granted = false;
+                        permissionsListener.remove();
+                        resolve({result: false, message:
+                            "Error Permissions not granted"});
+                    } else {
+                        isPermissions.granted = true;
+                        console.log(`%%% isPermissions.granted ${isPermissions.granted}`)
+                        permissionsListener.remove();
+                        resolve({result: true});
+                    }
+                });
+                await androidPermissions();
+            } else {
+                resolve({result: false, message:
+                    "Error Permissions not required for this platform"});
+            }
+        });
+
+    };
     /**
      * Open a Database
      * @param dbName string
@@ -108,13 +139,11 @@ export function useSQLite(): SQLiteResult {
                                       encrypted?: boolean,
                                       mode?: string,
                                       version?: number) => {
-        console.log("%%% in openDB platform " + platform + "%%%");
-        if(platform === "android") { 
-        const permissions: any = await androidPermissions();
-        console.log("%%% in openDB permissions " 
-        + JSON.stringify(permissions) + "%%%");
-        if(!permissions.result) return permissions;
-        }      
+        console.log(`%%% isPermissions.granted: ${isPermissions.granted}`)
+        if(!isPermissions.granted) {
+            return { result: false,
+                message: 'Error: Permissions not granted'};        
+        }
         if (typeof dbName === 'undefined') {
         return { result: false,
         message: 'Must provide a database name'};
@@ -142,7 +171,6 @@ export function useSQLite(): SQLiteResult {
     */
     const createSyncTable = async () => {
         const r = await mSQLite.createSyncTable();
-        console.log('result createSyncTable ',r);
         if(r) {
             if( typeof r.changes != 'undefined') {
                 return r;
@@ -157,7 +185,6 @@ export function useSQLite(): SQLiteResult {
     const close = async (dbName: string) => {
         if(dbName.length > 0) {
             const r = await mSQLite.close({database:dbName});
-            console.log('result close ',r);
             if(r) {
                 if( typeof r.result != 'undefined') {
                     return r;
@@ -174,7 +201,6 @@ export function useSQLite(): SQLiteResult {
     const execute = async (statements: string) => {
         if(statements.length > 0) {
             const r = await mSQLite.execute({statements:statements});
-            console.log('result execute ',r);
             if(r) {
                 if( typeof r.changes != 'undefined') {
                     return r;
@@ -191,7 +217,6 @@ export function useSQLite(): SQLiteResult {
     const executeSet = async (set:Array<any>) => {
         if(set.length > 0) {
             const r = await mSQLite.executeSet({set:set});
-            console.log('result executeSet ',r);
             if(r) {
                 if( typeof r.changes != 'undefined') {
                     return r;
@@ -213,7 +238,6 @@ export function useSQLite(): SQLiteResult {
             const vals: Array<any> = values ? values : [];
             const r = await mSQLite.run({statement: statement,
                                          values: vals});
-            console.log('result run ',r);
             if(r) {
                 if( typeof r.changes != 'undefined') {
                     return r;
@@ -235,7 +259,6 @@ export function useSQLite(): SQLiteResult {
             const vals: Array<any> = values ? values : [];
             const r = await mSQLite.query({statement: statement,
                                            values: vals});
-            console.log('result query ',r);
             if(r) {
                 if( typeof r.values != 'undefined') {
                     return r;
@@ -252,7 +275,6 @@ export function useSQLite(): SQLiteResult {
     const isDBExists = async (dbName: string) => {
         if(dbName.length > 0) {
             const r = await mSQLite.isDBExists({database:dbName});
-            console.log('result isDBExists ',r);
             if(r) {
                 if( typeof r.result != 'undefined') {
                     return r;
@@ -269,7 +291,6 @@ export function useSQLite(): SQLiteResult {
     const deleteDB = async (dbName: string) => {
         if(dbName.length > 0) {
             const r = await mSQLite.deleteDatabase({database:dbName});
-            console.log('result deleteDB ',r);
             if(r) {
                 if( typeof r.result != 'undefined') {
                     return r;
@@ -287,7 +308,6 @@ export function useSQLite(): SQLiteResult {
         if(jsonstring.length > 0) {
             const r = await mSQLite.isJsonValid(
                                         {jsonstring:jsonstring});
-            console.log('result isJsonValid ',r);
             if(r) {
                 if( typeof r.result != 'undefined') {
                     return r;
@@ -305,7 +325,6 @@ export function useSQLite(): SQLiteResult {
         if(jsonstring.length > 0) {
             const r = await mSQLite.importFromJson (
                                         {jsonstring:jsonstring});
-            console.log('result importFromJson ',r);
             if(r) {
                 if( typeof r.changes != 'undefined') {
                     return r;
@@ -324,7 +343,6 @@ export function useSQLite(): SQLiteResult {
     const exportToJson = async (mode: string) => {
         if(mode.length > 0) {
             const r = await mSQLite.exportToJson({jsonexportmode:mode});
-            console.log('result exportToJson ',r);
             if(r) {
                 if( typeof r.export != 'undefined') {
                     return r;
@@ -341,7 +359,6 @@ export function useSQLite(): SQLiteResult {
     const setSyncDate = async (syncDate:string) => {
         if(syncDate.length > 0) {
             const r = await mSQLite.setSyncDate({syncdate:syncDate});
-            console.log('result setSyncDate ',r);
             if(r) {
                 if( typeof r.result != 'undefined') {
                     return r;
@@ -388,5 +405,5 @@ export function useSQLite(): SQLiteResult {
     return { openDB, createSyncTable, close, execute, executeSet, run,
              query, isDBExists, deleteDB, isJsonValid, importFromJson,
              exportToJson, setSyncDate, addUpgradeStatement,
-             isAvailable: true };
+             requestPermissions, isAvailable: true };
 }
