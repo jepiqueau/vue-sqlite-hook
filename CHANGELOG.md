@@ -1,3 +1,18 @@
+## 0.0.5 (2020-12-29)
+
+## Chore
+
+- @capacitor/core@2.4.5
+- @capacitor-community/sqlite@2.4.4
+
+### Added Features
+
+- Add APIHook.md documentation
+
+### Bug Fixes
+
+- fix README & CHANGELOG
+
 ## 0.0.4 (2020-11-14)
 
 ### Added Features

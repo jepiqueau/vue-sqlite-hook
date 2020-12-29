@@ -2,57 +2,140 @@ import { Capacitor, Plugins } from '@capacitor/core';
 import { AvailableResult, notAvailable } from './util/models';
 import { isFeatureAvailable, featureNotAvailableError } from './util/feature-check';
 import '@capacitor-community/sqlite';
+import { capSQLiteChanges, capSQLiteValues, capSQLiteJson } from '@capacitor-community/sqlite';
 
-interface Set {
+/**
+ * SQLite Hook Interface
+ */
+export interface SQLiteHook extends AvailableResult {
+    /**
+     * Open a database
+     * @param dbName 
+     * @param encrypted 
+     * @param mode 
+     * @param version 
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    openDB(dbName: string,encrypted?: boolean,mode?: string, version?: number):
+                            Promise<Result>;
+    /**
+     * Create the synchronization table
+     * @returns Promise<capSQLiteChanges>
+     * @since 0.0.1
+     */
+    createSyncTable(): Promise<capSQLiteChanges>;
+    /**
+     * Close a database
+     * @param dbName 
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    close(dbName: string):Promise<Result>;
+    /**
+     * Execute multiple raw statements given in a string
+     * @param statements 
+     * @returns Promise<capSQLiteChanges>
+     * @since 0.0.1
+     */
+    execute(statements: string): Promise<capSQLiteChanges>;
+    /**
+     * Execute raw statements given in a set[]
+     * @param set 
+     * @returns Promise<capSQLiteChanges>
+     * @since 0.0.1
+     */
+    executeSet(set: Set[]): Promise<capSQLiteChanges>;
+    /**
+     * Execute a raw statement given in a string
+     * @param statement 
+     * @param values (optional) 
+     * @returns Promise<capSQLiteChanges>
+     * @since 0.0.1
+     */
+    run(statement: string,values?: any[]): Promise<capSQLiteChanges>;
+    /**
+     * Execute a query
+     * @param statement 
+     * @param values (Optional)
+     * @returns Promise<capSQLiteValues>
+     * @since 0.0.1
+     */
+    query(statement: string,values?: string[]): Promise<capSQLiteValues>
+    /**
+     * Check if a database exists
+     * @param dbName 
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    isDBExists(dbName: string): Promise<Result>;
+    /**
+     * Delete a database
+     * @param dbName 
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    deleteDB(dbName: string): Promise<Result>;
+    /**
+     * Check if a Json Object is valid
+     * @param jsonstring 
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    isJsonValid(jsonstring: string): Promise<Result>;
+    /**
+     * Import a Json Object into a database
+     * @param jsonstring 
+     * @returns Promise<capSQLiteChanges>
+     * @since 0.0.1
+     */
+    importFromJson(jsonstring: string): Promise<capSQLiteChanges>;
+    /**
+     * Export a Json Object from a database
+     * @param mode 
+     * @returns Promise<capSQLiteJson>
+     * @since 0.0.1
+     */
+    exportToJson(mode: string): Promise<capSQLiteJson>;
+    /**
+     * Set the synchronization date
+     * @param syncDate Format yyyy-MM-dd'T'HH:mm:ss.SSSZ
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    setSyncDate(syncDate: string): Promise<Result>;
+    /**
+     * Add upgrade version statement
+     * @param dbName 
+     * @param upgrade
+     * @returns Promise<Result>
+     * @since 0.0.1
+     */
+    addUpgradeStatement(dbName: string, upgrade: VersionUpgrade): Promise<Result>;
+    /**
+     * Request permissions for Android platform only
+     * @returns Promise<Result>
+     * @since 0.0.4
+     */
+    requestPermissions(): Promise<Result>;
+
+}
+export interface Set {
     statement?: string;
-    values?: Array<any>;
+    values?: any[];
 }
 
-interface VersionUpgrade {
+export interface VersionUpgrade {
     fromVersion: number;
     toVersion: number;
     statement: string;
-    set?: Array<Set>; 
+    set?: Set[]; 
+}
+export interface Result {
+    result?: boolean;
+    message?: string
 }
 
-interface SQLiteResult extends AvailableResult {
-    openDB: (dbName: string,encrypted?: boolean,mode?: string,
-            version?: number)
-                => Promise<{result?: boolean, message?: string}>;
-    createSyncTable: ()
-                => Promise<{changes?: {changes:number}}>;
-    close: (dbName: string)
-                => Promise<{result?: boolean, message?: string}>;
-    execute: (statements: string)
-                => Promise<{changes?: {changes: number},
-                            message?: string}>;
-    executeSet: (set: Array<Set>)
-                => Promise<{changes?: {changes: number, lastId: number},
-                            message?: string}>;
-    run: (statement: string,values?: Array<any>)
-                => Promise<{changes?: {changes: number, lastId: number},
-                            message?: string}>;
-    query: (statement: string,values?: Array<string>)
-                => Promise<{values?: Array<any>,message?: string}>
-    isDBExists: (dbName: string)
-                => Promise<{result?: boolean, message?: string}>;
-    deleteDB: (dbName: string)
-                => Promise<{result?: boolean, message?: string}>;
-    isJsonValid: (jsonstring: string)
-                => Promise<{result?: boolean, message?: string}>;
-    importFromJson: (jsonstring: string)
-                => Promise<{changes?: {changes: number},
-                            message?: string}>;
-    exportToJson: (mode: string)
-                => Promise<{export?: any,message?: string}>;
-    setSyncDate: (syncDate: string)
-                => Promise<{result?: boolean, message?: string}>;
-    addUpgradeStatement: (dbName: string, upgrade: VersionUpgrade)
-                => Promise<{result?: boolean, message?: string}>;
-    requestPermissions: () 
-                => Promise<{result?: boolean, message?: string}>;
-
-}
 export const availableFeatures = {
     useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
 }
@@ -63,7 +146,7 @@ export const isPermissions = {
  * useSQLite Hook
  */
 
-export function useSQLite(): SQLiteResult {
+export function useSQLite(): SQLiteHook {
     const { CapacitorSQLite } = Plugins;
     const platform = Capacitor.getPlatform();
     const mSQLite:any = CapacitorSQLite;
@@ -211,10 +294,10 @@ export function useSQLite(): SQLiteResult {
         return {changes:{changes:0},message:"Statements is empty"};
     };
     /**
-     * Execute a set of Raw Statements as Array<any>
-     * @param set Array<any> 
+     * Execute a set of Raw Statements as any[]
+     * @param set any[] 
      */
-    const executeSet = async (set:Array<any>) => {
+    const executeSet = async (set: Set[]) => {
         if(set.length > 0) {
             const r = await mSQLite.executeSet({set:set});
             if(r) {
@@ -230,12 +313,12 @@ export function useSQLite(): SQLiteResult {
     /**
      * Execute a Single Raw Statement
      * @param statement string
-     * @param values Array<any> optional
+     * @param values any[] optional
      */
     const run = async (statement: string,
-                                  values?: Array<any>) => {
+                                  values?: any[]) => {
         if(statement.length > 0) {
-            const vals: Array<any> = values ? values : [];
+            const vals: any[] = values ? values : [];
             const r = await mSQLite.run({statement: statement,
                                          values: vals});
             if(r) {
@@ -251,10 +334,10 @@ export function useSQLite(): SQLiteResult {
     /**
      * Query a Single Raw Statement
      * @param statement string
-     * @param values Array<string> optional
+     * @param values string[] optional
      */
     const query = async (statement: string,
-                                     values?:Array<string>) => {
+                                     values?:string[]) => {
         if(statement.length > 0) {
             const vals: Array<any> = values ? values : [];
             const r = await mSQLite.query({statement: statement,
