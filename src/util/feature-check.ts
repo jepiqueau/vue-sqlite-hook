@@ -10,17 +10,16 @@ const allTrue = {
 
 const featureMap = {
   CapacitorSQLite: {
-    open: {...allTrue, web: false},
     useSQLite: {...allTrue, web: false},    
   }
 }
 
 export function isFeatureAvailable<
-  T extends typeof featureMap,
-  PluginKeys extends keyof NonNullable<T>,
-  FeatureKeys extends keyof NonNullable<NonNullable<T>[PluginKeys]>>
-  (plugin: PluginKeys, method: FeatureKeys): boolean {
-    if(Capacitor.isPluginAvailable(plugin as string) && !!(featureMap as any)[plugin][method][Capacitor.platform!]) {
+T extends typeof featureMap,
+PluginKeys extends keyof NonNullable<T>,
+FeatureKeys extends keyof NonNullable<NonNullable<T>[PluginKeys]>>
+(plugin: PluginKeys, method: FeatureKeys): boolean {
+  if(Capacitor.isPluginAvailable(plugin as string) && !!(featureMap as any)[plugin][method][Capacitor.platform!]) {
       return true;
     }
     return false;
