@@ -1,3 +1,10 @@
+## 1.0.0-beta.1 (2021-01-02) REFACTOR
+
+### Bug Fixes
+
+- fix getPlatform
+- fix README & CHANGELOG
+
 ## 1.0.0-alpha.1 (2021-01-01) REFACTOR
 
 ### Chore

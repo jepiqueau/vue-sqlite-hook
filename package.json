@@ -44,7 +44,7 @@
     "eslint-plugin-vue": "^7.4.0",
     "jest": "^26.5.2",
     "jest-environment-jsdom-fourteen": "^0.1.0",
-    "np": "^7.0.0",
+    "np": "^7.2.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.2.0",

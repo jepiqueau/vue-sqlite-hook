@@ -193,9 +193,6 @@ export function useSQLite(): SQLiteHook {
      * Get Platform
      */
     const getPlatform = async (): Promise<any> => {
-        if(!isPermissions.granted) {
-            return {platform: 'Error: Permissions not granted'};       
-        }
         return {platform: platform};
     };
     /**
