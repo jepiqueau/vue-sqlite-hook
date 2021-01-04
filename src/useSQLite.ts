@@ -89,6 +89,13 @@ export interface SQLiteHook extends  AvailableResult {
      * @since 1.0.0 refactor
      */
     requestPermissions(): Promise<Result>;
+    /**
+     * Copy databases from assets to application database folder
+     * @returns Promise<Result>
+     * @since 1.0.0 refactor
+     */
+    copyFromAssets(): Promise<Result>;
+
 }
 
 export interface MySet {
@@ -371,6 +378,21 @@ export function useSQLite(): SQLiteHook {
                     message:"Must provide a database name"};
         }
     };
+    const copyFromAssets = async () : Promise<Result> => {
+        if(!isPermissions.granted) {
+            return { result: false,
+                message: 'Error: Permissions not granted'};        
+        }
+        const r = await mSQLite.copyFromAssets();
+        if(r) {
+            if( typeof r.result != 'undefined') {
+                return r;
+            }
+        } 
+        return {result: false,
+                message:"copyFromAssets failed"};
+    };
+
     if (!availableFeatures.useSQLite) {
         return {
             echo: featureNotAvailableError,
@@ -384,12 +406,13 @@ export function useSQLite(): SQLiteHook {
             importFromJson: featureNotAvailableError,
             isJsonValid: featureNotAvailableError,
             requestPermissions: featureNotAvailableError,
+            copyFromAssets: featureNotAvailableError,
             ...notAvailable
         };
     } else {
         return {echo, getPlatform, createConnection, closeConnection,
             retrieveConnection, retrieveAllConnections, closeAllConnections,
-            addUpgradeStatement, importFromJson, isJsonValid,
+            addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
             requestPermissions, isAvailable: true};
     }
 }

@@ -1,3 +1,9 @@
+## 1.0.0-beta.2 (2021-01-04) REFACTOR
+
+### Added Features
+
+ - copyFromAssets
+
 ## 1.0.0-beta.1 (2021-01-02) REFACTOR
 
 ### Bug Fixes

@@ -138,6 +138,9 @@ jest.mock('@capacitor-community/sqlite', () => {
                         return {result: false};
                     }
                 },
+                copyFromAssets: async () => {
+                    return {result: true};
+                }
 
             } 
         }),

@@ -19,6 +19,7 @@
 * [`importFromJson(...)`](#importfromjson)
 * [`isJsonValid(...)`](#isjsonvalid)
 * [`requestPermissions()`](#requestpermissions)
+* [`copyFromAssets()`](#copyfromassets)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -219,6 +220,21 @@ requestPermissions() => Promise<Result>
 ```
 
 Request Permissions
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+
+**Since:** 1.0.0 refactor
+
+--------------------
+
+
+### copyFromAssets()
+
+```typescript
+copyFromAssets() => Promise<Result>
+```
+
+Copy From Assets
 
 **Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
 
