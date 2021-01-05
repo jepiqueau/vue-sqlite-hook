@@ -1,3 +1,9 @@
+## 1.0.0-beta.3 (2021-01-05) REFACTOR
+
+### Bug Fixes
+
+- fix README & CHANGELOG
+
 ## 1.0.0-beta.2 (2021-01-04) REFACTOR
 
 ### Added Features

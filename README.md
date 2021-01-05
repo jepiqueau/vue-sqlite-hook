@@ -3,6 +3,7 @@
 <h3 align="center">Vue Hook for @capacitor-community/sqlite</h3>
 <p align="center"><strong><code>vue-sqlite-hook</code></strong></p>
 <br>
+<p align="center" style="font-size:50px;color:red"><strong>REFACTOR 🚀</strong></p><br>
 <p align="center">
     <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
     <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/l/vue-sqlite-hook?style=flat-square" /></a>
@@ -33,12 +34,12 @@ npm install --save-dev vue-sqlite-hook@refactor
 ### Vue 3 (to come)
  - [vue-sqlite-app] (https://github.com/jepiqueau/vue-sqlite-app/tree/refactor)
 
-### Ionic/Vue (to come)
+### Ionic/Vue
  - [vue-sqlite-app-starter] (https://github.com/jepiqueau/vue-sqlite-app-starter/tree/refactor)
 
 
-## Usage (to come)
-The usage of `vue-sqlite-hook`is demonstrated in
+## Usage
+The usage of `vue-sqlite-hook` is demonstrated in
 
 - [Ionic/Vue_Usage_Documentation](https://github.com/capacitor-community/sqlite/blob/refactor/docs/Ionic-Vue-Usage.md)
 
