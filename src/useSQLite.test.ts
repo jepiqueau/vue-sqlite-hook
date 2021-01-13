@@ -1,5 +1,5 @@
 import { Plugins, Capacitor } from '@capacitor/core';
-import { availableFeatures, useSQLite, isPermissions } from './useSQLite';
+import { availableFeatures, useSQLite } from './useSQLite';
 
 jest.mock('@capacitor/core', () => {
     let mDatabases: any = {};
@@ -11,11 +11,6 @@ jest.mock('@capacitor/core', () => {
     return {
         Plugins: {
             CapacitorSQLite: {
-                requestPermissions: async () => {
-                    console.log('in requestPermissions ')
-                    isPermissions.granted = true;
-                    return;
-                },
                 open: async (options: any) => {
                     const database = options.database ? options.database : "storage"; 
                     const encrypted: boolean = options.encrypted ? options.encrypted : false;
@@ -37,21 +32,6 @@ jest.mock('@capacitor/core', () => {
                     }
                 },
                 /* TODO other methods */
-                addListener: (eventName: string) => {
-                    console.log('in addListener')
-                    listeners.push(eventName);
-                    if(eventName === "androidPermissionsRequest") {
-                        isPermissions.granted = true;
-                        return {permissionGranted: 1};
-                    } else {
-                        isPermissions.granted = false;
-                        return {permissionGranted: 0};
-                    }
-                },
-                removeAllListeners: () => {
-                    listeners = [];
-                },
-
             }
         },
         Capacitor: {
@@ -61,7 +41,6 @@ jest.mock('@capacitor/core', () => {
                 platform = _platform;
             },
             platform: platform,
-            getPermissions: () => isPermissions.granted,
 
         }
 
@@ -82,7 +61,7 @@ it('Check CapacitorSQLite available for ios platform', async () => {
     let res:any = await openDB("test-sqlite");
     expect(res.result).toBe(true);
 });
-it('Check CapacitorSQLite available for android platform without permissions', async () => {
+it('Check CapacitorSQLite available for android platform', async () => {
     const capacitorMock = (Capacitor as any);
     capacitorMock.setPlatform('android');
     const {openDB, isAvailable} = useSQLite();
@@ -90,28 +69,9 @@ it('Check CapacitorSQLite available for android platform without permissions', a
     expect(isAvailable).toBe(true);
     expect(capacitorMock.getPlatform()).toBe('android');
     let res:any = await openDB("test-sqlite");
-    expect(res.result).toBe(false); // no permissions
-    let msg = "Error: Permissions not granted";
-    expect(res.message).toEqual(msg);
+    expect(res.result).toBe(true);
 
 });
-// Does not work could not find the reason
-/*
-it('Check CapacitorSQLite available for android platform with permissions', async () => {
-    const capacitorMock = (Capacitor as any);
-    capacitorMock.setPlatform('android');
-    const {openDB, requestPermissions,
-        isAvailable} = useSQLite();
-    
-    expect(availableFeatures.useSQLite).toBe(true);
-    expect(isAvailable).toBe(true);
-    expect(capacitorMock.getPlatform()).toBe('android');
-    let res: any = await requestPermissions();
-    expect(capacitorMock.getPermissions()).toBe(true);
-    res = await openDB("test-sqlite");
-    expect(res.result).toBe(true);
-});
-*/
 it('Check CapacitorSQLite available for electron platform', async () => {
     const capacitorMock = (Capacitor as any);
     capacitorMock.setPlatform('electron');

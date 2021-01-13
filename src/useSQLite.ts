@@ -112,12 +112,6 @@ export interface SQLiteHook extends AvailableResult {
      * @since 0.0.1
      */
     addUpgradeStatement(dbName: string, upgrade: VersionUpgrade): Promise<Result>;
-    /**
-     * Request permissions for Android platform only
-     * @returns Promise<Result>
-     * @since 0.0.4
-     */
-    requestPermissions(): Promise<Result>;
 
 }
 export interface Set {
@@ -139,9 +133,7 @@ export interface Result {
 export const availableFeatures = {
     useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
 }
-export const isPermissions = {
-    granted: true
-}
+
 /**
  * useSQLite Hook
  */
@@ -150,18 +142,6 @@ export function useSQLite(): SQLiteHook {
     const { CapacitorSQLite } = Plugins;
     const platform = Capacitor.getPlatform();
     const mSQLite:any = CapacitorSQLite;
-    let permissionsListener: any = null;
-    isPermissions.granted = platform != "android" ? true : false;
-
-    const androidPermissions = async () => {
-        try {
-            await mSQLite.requestPermissions();
-            return { result: true };
-        } catch (e) {
-            return { result: false,
-                message: "Error requesting permissions " + e};
-        }   
-    }
 
     if (!availableFeatures.useSQLite) {
         return {
@@ -179,38 +159,9 @@ export function useSQLite(): SQLiteHook {
             exportToJson: featureNotAvailableError,
             setSyncDate: featureNotAvailableError,
             addUpgradeStatement: featureNotAvailableError,
-            requestPermissions: featureNotAvailableError,
             ...notAvailable
         };
     }
-    /**
-     * 
-     */
-    const requestPermissions = async (): Promise<any> => {
-        return new Promise(async (resolve) => {
-            if(platform === "android") { 
-                permissionsListener = mSQLite.addListener(
-                        'androidPermissionsRequest', (e: any) => {
-                    if(e.permissionGranted === 0) {
-                        isPermissions.granted = false;
-                        permissionsListener.remove();
-                        resolve({result: false, message:
-                            "Error Permissions not granted"});
-                    } else {
-                        isPermissions.granted = true;
-                        console.log(`%%% isPermissions.granted ${isPermissions.granted}`)
-                        permissionsListener.remove();
-                        resolve({result: true});
-                    }
-                });
-                await androidPermissions();
-            } else {
-                resolve({result: false, message:
-                    "Error Permissions not required for this platform"});
-            }
-        });
-
-    };
     /**
      * Open a Database
      * @param dbName string
@@ -222,11 +173,6 @@ export function useSQLite(): SQLiteHook {
                                       encrypted?: boolean,
                                       mode?: string,
                                       version?: number) => {
-        console.log(`%%% isPermissions.granted: ${isPermissions.granted}`)
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         if (typeof dbName === 'undefined') {
         return { result: false,
         message: 'Must provide a database name'};
@@ -488,5 +434,5 @@ export function useSQLite(): SQLiteHook {
     return { openDB, createSyncTable, close, execute, executeSet, run,
              query, isDBExists, deleteDB, isJsonValid, importFromJson,
              exportToJson, setSyncDate, addUpgradeStatement,
-             requestPermissions, isAvailable: true };
+             isAvailable: true };
 }

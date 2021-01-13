@@ -4,7 +4,7 @@
 <p align="center"><strong><code>vue-sqlite-hook</code></strong></p>
 <br>
 <p align="center">
-    <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
+    <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
     <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/l/vue-sqlite-hook?style=flat-square" /></a>
 <br>
   <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/dw/vue-sqlite-hook?style=flat-square" /></a>
@@ -13,6 +13,12 @@
 <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
+<br>
+
+## REFACTOR 🚀
+
+A refactor of vue-sqlite-hook is now available `vue-sqlite-hook@refactor` to interface the `@capacitor-community/sqlite@refactor`
+
 
 ## Maintainers
 

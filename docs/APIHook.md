@@ -23,7 +23,6 @@
 * [`exportToJson(...)`](#exporttojson)
 * [`setSyncDate(...)`](#setsyncdate)
 * [`addUpgradeStatement(...)`](#addupgradestatement)
-* [`requestPermissions()`](#requestpermissions)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -303,19 +302,6 @@ Add upgrade version statement
 --------------------
 
 
-### requestPermissions()
-
-```typescript
-requestPermissions() => Promise<Result>
-```
-
-Request permissions for Android platform only
-
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
-
-**Since:** 0.0.4
-
---------------------
 
 
 ### Interfaces
