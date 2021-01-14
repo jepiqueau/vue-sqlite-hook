@@ -1,5 +1,5 @@
 import { Plugins, Capacitor } from '@capacitor/core';
-import { availableFeatures, useSQLite, isPermissions } from './useSQLite';
+import { availableFeatures, useSQLite } from './useSQLite';
 import { SQLiteDBConnection } from '@capacitor-community/sqlite';
 import '@capacitor-community/sqlite';
 import { resolveComponent } from 'vue';
@@ -13,16 +13,9 @@ jest.mock('@capacitor/core', () => {
     let curTable: string = "";
     var mIsPluginAvailable: boolean = true;
     var platform: string = 'ios';
-    var listeners: string[] = [];
-    var isPermissionGranted: boolean = true;
     return {
         Plugins: {
           CapacitorSQLite: {
-            requestPermissions: async (): Promise<any> => {
-                console.log(">>> in requestPermissions CapacitorSQLite")
-                 return Promise.resolve({result: true});
-            },
-
             open: async (options: any) => {
                 const database = options.database ? options.database : "storage"; 
                 const encrypted: boolean = options.encrypted ? options.encrypted : false;
@@ -39,21 +32,6 @@ jest.mock('@capacitor/core', () => {
             /* TODO other methods */
   
               
-            addListener: (eventName: string) => {
-                listeners.push(eventName);
-                console.log(`in addListener ${eventName}`);
-                if(eventName === "androidPermissionsRequest") {
-                    isPermissions.granted = true;
-                    return {permissionGranted: 1};
-                } else {
-                    isPermissions.granted = false;
-                    return {permissionGranted: 0};
-                }
-            },
-            removeAllListeners: () => {
-                listeners = [];
-            }
-     
           }
         },
         Capacitor: {
@@ -65,7 +43,6 @@ jest.mock('@capacitor/core', () => {
             },
             isPluginAvailable: () => mIsPluginAvailable,
             getPlatform: () => platform,
-            getPermissions: () => isPermissions.granted,
             platform: platform
         }
       }

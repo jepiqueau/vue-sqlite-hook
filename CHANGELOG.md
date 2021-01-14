@@ -1,3 +1,16 @@
+## 1.0.0-beta.4 (2021-01-14) REFACTOR
+
+## Chore
+
+- @capacitor/core@2.4.6
+- @capacitor-community/sqlite@2.9.0
+
+### Bug Fixes
+
+- Fix issue#60 remove Android permissions
+- Fix readme & changelog
+- fix APIHook.md
+
 ## 1.0.0-beta.3 (2021-01-05) REFACTOR
 
 ### Bug Fixes
@@ -37,6 +50,16 @@
  - importFromJson
  - isJsonValid
 
+## 0.0.6 (2021-01-13)
+
+## Chore
+
+- @capacitor-community/sqlite@2.4.5-3
+
+### Bug Fixes
+
+- remove android permision issue#60
+- fix README & CHANGELOG
 
 ## 0.0.5 (2020-12-29)
 

@@ -84,12 +84,6 @@ export interface SQLiteHook extends  AvailableResult {
      */
     isJsonValid(jsonstring: string): Promise<Result>;
     /**
-     * Request Permissions
-     * @returns Promise<Result>
-     * @since 1.0.0 refactor
-     */
-    requestPermissions(): Promise<Result>;
-    /**
      * Copy databases from assets to application database folder
      * @returns Promise<Result>
      * @since 1.0.0 refactor
@@ -115,9 +109,6 @@ export interface Result {
     message?: string
 }
 
-export const isPermissions = {
-    granted: true
-}
 export let availableFeatures: any;
 /**
  * useSQLite Hook
@@ -128,63 +119,17 @@ export function useSQLite(): SQLiteHook {
     const platform = Capacitor.getPlatform();
     const sqlitePlugin: any = CapacitorSQLite;
     const mSQLite = new SQLiteConnection(sqlitePlugin);
-    isPermissions.granted = platform != "android" ? true : false;
 
     availableFeatures = {
         useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
     }
     
     /**
-     * Request Permissions
-     */
-    const requestPermissions = async (): Promise<Result> => {
-        return new Promise(async (resolve) => {
-            if(platform === "android") { 
-                const androidPermissions = async () => {
-                    console.log("$$$$ going to ask for permissions " + platform)
-                    try {
-                        await sqlitePlugin.requestPermissions();
-                        console.log("$$$$ after ask for permissions " + platform)
-                        return { result: true };
-                    } catch (e) {
-                        console.log("Error requesting permissions " + e);
-                        return { result: false,
-                            message: "Error requesting permissions " + e};
-                    }   
-                }
-                let permissionsListener: any = null;
-                permissionsListener = sqlitePlugin.addListener(
-                        'androidPermissionsRequest',async (e: any) => {
-                            console.log(`$$$$ in addListener ${JSON.stringify(e)}`)
-                    if(e.permissionGranted === 0) {
-                        isPermissions.granted = false;
-                        permissionsListener.remove();
-                        resolve({result: false, message:
-                            "Error Permissions not granted"});
-                    } else {
-                        isPermissions.granted = true;
-                        permissionsListener.remove();
-                        resolve({result: true});
-                    }
-                });
-                await androidPermissions();
-            } else {
-                resolve({result: false, message:
-                    "Error Permissions not required for this platform"});
-            }
-        });
-
-    };
-    /**
      * Echo value
      * @param value 
      */
     const echo = async (value: string): Promise<capEchoResult> => {
         const ret: capEchoResult = {value: ""};
-        if(!isPermissions.granted) {
-            ret.value = 'Error: Permissions not granted'; 
-            return ret;       
-        }
         if(value) {
             const r = await mSQLite.echo(value);
             if(r) {
@@ -216,10 +161,6 @@ export function useSQLite(): SQLiteHook {
             return { result: false,
             message: 'Must provide a database name'};
         } 
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         const mDatabase: string = dbName;
         const mVersion: number = version ? version : 1;
         const mEncrypted: boolean = encrypted ? encrypted : false;
@@ -237,10 +178,6 @@ export function useSQLite(): SQLiteHook {
      * @param dbName string
      */
     const closeConnection = async (dbName: string): Promise<Result> => {
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         if(dbName.length > 0) {
             const r = await mSQLite.closeConnection(dbName);
             if(r) {
@@ -258,10 +195,6 @@ export function useSQLite(): SQLiteHook {
      */
     const retrieveConnection = async (dbName: string):
                                       Promise<SQLiteDBConnection | Result | null> => {
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         if(dbName.length > 0) {
             const r = await mSQLite.retrieveConnection(dbName);
             if(r) {
@@ -276,10 +209,6 @@ export function useSQLite(): SQLiteHook {
      * 
      */
     const retrieveAllConnections = async (): Promise<any  | Result | null> => {
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         const r = await mSQLite.retrieveAllConnections();
         if(r) {
             return r;
@@ -291,10 +220,6 @@ export function useSQLite(): SQLiteHook {
      * @param dbName string
      */
     const closeAllConnections = async (): Promise<Result> => {
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         const r = await mSQLite.closeAllConnections();
         if(r) {
             if( typeof r.result != 'undefined') {
@@ -309,10 +234,6 @@ export function useSQLite(): SQLiteHook {
      * @param jsonstring string
      */
     const importFromJson = async (jsonstring: string): Promise<capSQLiteChanges> => {
-        if(!isPermissions.granted) {
-            return { changes: {changes: -1, lastId: -1},
-                message: 'Error: Permissions not granted'};        
-        }
         const r = await mSQLite.importFromJson(jsonstring);
         if(r) {
             if( typeof r.changes != 'undefined') {
@@ -326,10 +247,6 @@ export function useSQLite(): SQLiteHook {
      * @param jsonstring string
      */
     const isJsonValid = async (jsonstring: string): Promise<Result> => {
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         const r = await mSQLite.isJsonValid(jsonstring);
         if(r) {
             if( typeof r.result != 'undefined') {
@@ -356,10 +273,6 @@ export function useSQLite(): SQLiteHook {
                 return {result: false,
                     message: msg};
         }
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
 
         if(dbName.length > 0) {
             const r = await mSQLite
@@ -379,10 +292,6 @@ export function useSQLite(): SQLiteHook {
         }
     };
     const copyFromAssets = async () : Promise<Result> => {
-        if(!isPermissions.granted) {
-            return { result: false,
-                message: 'Error: Permissions not granted'};        
-        }
         const r = await mSQLite.copyFromAssets();
         if(r) {
             if( typeof r.result != 'undefined') {
@@ -405,7 +314,6 @@ export function useSQLite(): SQLiteHook {
             addUpgradeStatement: featureNotAvailableError,
             importFromJson: featureNotAvailableError,
             isJsonValid: featureNotAvailableError,
-            requestPermissions: featureNotAvailableError,
             copyFromAssets: featureNotAvailableError,
             ...notAvailable
         };
@@ -413,6 +321,6 @@ export function useSQLite(): SQLiteHook {
         return {echo, getPlatform, createConnection, closeConnection,
             retrieveConnection, retrieveAllConnections, closeAllConnections,
             addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
-            requestPermissions, isAvailable: true};
+            isAvailable: true};
     }
 }
