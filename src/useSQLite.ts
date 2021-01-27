@@ -1,120 +1,97 @@
-import { Capacitor, Plugins } from '@capacitor/core';
+import { Capacitor } from '@capacitor/core';
 import { AvailableResult, notAvailable } from './util/models';
 import { isFeatureAvailable, featureNotAvailableError } from './util/feature-check';
-import '@capacitor-community/sqlite';
-import { capSQLiteChanges, capSQLiteValues, capSQLiteJson } from '@capacitor-community/sqlite';
+import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capEchoResult,
+         capSQLiteChanges } from '@capacitor-community/sqlite';
+
+export { SQLiteDBConnection }
 
 /**
  * SQLite Hook Interface
  */
-export interface SQLiteHook extends AvailableResult {
+export interface SQLiteHook extends  AvailableResult {
     /**
-     * Open a database
-     * @param dbName 
-     * @param encrypted 
-     * @param mode 
-     * @param version 
-     * @returns Promise<Result>
-     * @since 0.0.1
+     * Echo a value
+     * @param value
+     * @returns Promise<{value: string}>
+     * @since 1.0.0 refactor
      */
-    openDB(dbName: string,encrypted?: boolean,mode?: string, version?: number):
-                            Promise<Result>;
+    echo(value: string): Promise<capEchoResult>;
     /**
-     * Create the synchronization table
-     * @returns Promise<capSQLiteChanges>
-     * @since 0.0.1
+     * Get platform
+     * @returns Promise<{platform: string}>
+     * @since 1.0.0 refactor
      */
-    createSyncTable(): Promise<capSQLiteChanges>;
+    getPlatform(): Promise<{platform: string}>;
     /**
-     * Close a database
-     * @param dbName 
-     * @returns Promise<Result>
-     * @since 0.0.1
+     * Add an Upgrade Statement to Update Database Version
+     * @param dbName database name
+     * @param upgrade upgrade statement
+     * @returns Promise<void>
+     * @since 2.0.0
      */
-    close(dbName: string):Promise<Result>;
+    addUpgradeStatement(dbName: string, upgrade: VersionUpgrade): Promise<void>;
     /**
-     * Execute multiple raw statements given in a string
-     * @param statements 
-     * @returns Promise<capSQLiteChanges>
-     * @since 0.0.1
+     * Create a connection to a database
+     * @param database
+     * @param encrypted
+     * @param mode
+     * @param version
+     * @returns Promise<SQLiteDBConnection>
+     * @since 2.0.0
      */
-    execute(statements: string): Promise<capSQLiteChanges>;
+    createConnection(database: string, encrypted?: boolean, mode?: string,
+                     version?: number,): Promise<SQLiteDBConnection>;
     /**
-     * Execute raw statements given in a set[]
-     * @param set 
-     * @returns Promise<capSQLiteChanges>
-     * @since 0.0.1
+     * Retrieve an existing database connection
+     * @param database
+     * @returns Promise<SQLiteDBConnection>
+     * @since 2.0.0
      */
-    executeSet(set: Set[]): Promise<capSQLiteChanges>;
+    retrieveConnection(database: string): Promise<SQLiteDBConnection>;
     /**
-     * Execute a raw statement given in a string
-     * @param statement 
-     * @param values (optional) 
-     * @returns Promise<capSQLiteChanges>
-     * @since 0.0.1
+     * Retrieve all database connections
+     * @returns Promise<Map<string, SQLiteDBConnection>>
+     * @since 2.0.0
      */
-    run(statement: string,values?: any[]): Promise<capSQLiteChanges>;
+    retrieveAllConnections(): Promise<Map<string, SQLiteDBConnection>>;
     /**
-     * Execute a query
-     * @param statement 
-     * @param values (Optional)
-     * @returns Promise<capSQLiteValues>
-     * @since 0.0.1
+     * Close a database connection
+     * @param database
+     * @returns Promise<void>
+     * @since 2.0.0
      */
-    query(statement: string,values?: string[]): Promise<capSQLiteValues>
+    closeConnection(database: string): Promise<void>;
     /**
-     * Check if a database exists
-     * @param dbName 
-     * @returns Promise<Result>
-     * @since 0.0.1
+     * Close all database connections
+     * @returns Promise<void>
+     * @since 2.0.0
      */
-    isDBExists(dbName: string): Promise<Result>;
+    closeAllConnections(): Promise<void>;
     /**
-     * Delete a database
-     * @param dbName 
-     * @returns Promise<Result>
-     * @since 0.0.1
-     */
-    deleteDB(dbName: string): Promise<Result>;
-    /**
-     * Check if a Json Object is valid
-     * @param jsonstring 
-     * @returns Promise<Result>
-     * @since 0.0.1
-     */
-    isJsonValid(jsonstring: string): Promise<Result>;
-    /**
-     * Import a Json Object into a database
-     * @param jsonstring 
-     * @returns Promise<capSQLiteChanges>
-     * @since 0.0.1
+     * Import a database From a JSON
+     * @param jsonstring string
+     * @returns Promise<Changes>
+     * @since 1.0.0 refactor
      */
     importFromJson(jsonstring: string): Promise<capSQLiteChanges>;
     /**
-     * Export a Json Object from a database
-     * @param mode 
-     * @returns Promise<capSQLiteJson>
-     * @since 0.0.1
-     */
-    exportToJson(mode: string): Promise<capSQLiteJson>;
-    /**
-     * Set the synchronization date
-     * @param syncDate Format yyyy-MM-dd'T'HH:mm:ss.SSSZ
+     * Check the validity of a JSON Object
+     * @param jsonstring string
      * @returns Promise<Result>
-     * @since 0.0.1
+     * @since 1.0.0 refactor
      */
-    setSyncDate(syncDate: string): Promise<Result>;
+    isJsonValid(jsonstring: string): Promise<Result>;
     /**
-     * Add upgrade version statement
-     * @param dbName 
-     * @param upgrade
-     * @returns Promise<Result>
-     * @since 0.0.1
+     * Copy databases from assets to application database folder
+     * @returns Promise<void>
+     * @since 2.0.0
      */
-    addUpgradeStatement(dbName: string, upgrade: VersionUpgrade): Promise<Result>;
+    copyFromAssets(): Promise<void>;
 
 }
-export interface Set {
+
+export interface MySet {
     statement?: string;
     values?: any[];
 }
@@ -123,316 +100,239 @@ export interface VersionUpgrade {
     fromVersion: number;
     toVersion: number;
     statement: string;
-    set?: Set[]; 
+    set?: MySet[]; 
 }
+
 export interface Result {
     result?: boolean;
     message?: string
 }
 
-export const availableFeatures = {
-    useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
-}
-
+export let availableFeatures: any;
 /**
  * useSQLite Hook
  */
 
 export function useSQLite(): SQLiteHook {
-    const { CapacitorSQLite } = Plugins;
     const platform = Capacitor.getPlatform();
-    const mSQLite:any = CapacitorSQLite;
+    const sqlitePlugin: any = CapacitorSQLite;
+    const mSQLite = new SQLiteConnection(sqlitePlugin);
 
-    if (!availableFeatures.useSQLite) {
-        return {
-            openDB: featureNotAvailableError,
-            createSyncTable: featureNotAvailableError,
-            close: featureNotAvailableError,
-            execute: featureNotAvailableError,
-            executeSet: featureNotAvailableError,
-            run: featureNotAvailableError,
-            query: featureNotAvailableError,
-            isDBExists: featureNotAvailableError,
-            deleteDB: featureNotAvailableError,
-            isJsonValid: featureNotAvailableError,
-            importFromJson: featureNotAvailableError,
-            exportToJson: featureNotAvailableError,
-            setSyncDate: featureNotAvailableError,
-            addUpgradeStatement: featureNotAvailableError,
-            ...notAvailable
-        };
+    availableFeatures = {
+        useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
     }
+    
     /**
-     * Open a Database
+     * Echo value
+     * @param value 
+     */
+    const echo = async (value: string): Promise<capEchoResult> => {
+        const ret: capEchoResult = {value: ""};
+        if(value) {
+            const r = await mSQLite.echo(value);
+            if(r) {
+                return r;
+            }
+            return ret;    
+        } else {
+            ret.value = "Echo: failed";
+            return ret;
+        }
+    };
+    /**
+     * Get Platform
+     */
+    const getPlatform = async (): Promise<any> => {
+        return {platform: platform};
+    };
+    /**
+     * Create a Connection to Database
      * @param dbName string
      * @param _encrypted boolean optional 
      * @param _mode string optional
      * @param version number optional
      */  
-    const openDB = async (dbName: string,
-                                      encrypted?: boolean,
-                                      mode?: string,
-                                      version?: number) => {
-        if (typeof dbName === 'undefined') {
-        return { result: false,
-        message: 'Must provide a database name'};
-        }      
+    const createConnection = async (dbName: string, encrypted?: boolean,
+                                    mode?: string, version?: number):
+                                    Promise<SQLiteDBConnection> => {
+        if (dbName == null || dbName.length === 0) {
+            return Promise.reject(new Error('Must provide a database name'));
+        } 
         const mDatabase: string = dbName;
         const mVersion: number = version ? version : 1;
         const mEncrypted: boolean = encrypted ? encrypted : false;
         const mMode: string = mode ? mode : "no-encryption";
-        const r = await mSQLite.open({database: mDatabase,
-                encrypted: mEncrypted,
-                mode: mMode, version: mVersion});
-        if(r) {
-            if( typeof r.result != 'undefined') {
-                if(r.result) {
-                    return r;
+
+        try {
+            const r = await mSQLite.createConnection(
+                    mDatabase, mEncrypted, mMode, mVersion);
+                if(r) {
+                    return Promise.resolve(r);
                 } else {
-                    return {result: false, message: r.message};
-                }
+                    return Promise.reject("No returned connection");
+                } 
+            } catch (err) {
+                return Promise.reject(err);
             }
         }
-        return {result: false, message: "Error in openDB"};
-    };
     /**
-    * Create synchronisation table
-    */
-    const createSyncTable = async () => {
-        const r = await mSQLite.createSyncTable();
-        if(r) {
-            if( typeof r.changes != 'undefined') {
-                return r;
+     * Close the Connection to the Database
+     * @param dbName string
+     */
+    const closeConnection = async (dbName: string): Promise<void> => {
+        if(dbName.length > 0) {
+            try {
+                await mSQLite.closeConnection(dbName);
+                return Promise.resolve();
+            } catch (err) {
+                return Promise.reject(err);
             }
+        } else {
+            return Promise.reject('Must provide a database name');
         }
-        return {changes:0};
     };
     /**
-     * Close the Database
+     * Retrieve a Connection to the Database
      * @param dbName string
      */
-    const close = async (dbName: string) => {
+    const retrieveConnection = async (dbName: string): Promise<SQLiteDBConnection> => {
         if(dbName.length > 0) {
-            const r = await mSQLite.close({database:dbName});
-            if(r) {
-                if( typeof r.result != 'undefined') {
-                    return r;
+            try {
+                const r = await mSQLite.retrieveConnection(dbName);
+                if(r) {
+                    return Promise.resolve(r);
+                } else {
+                    return Promise.reject("No returned connection");
                 }
-            } 
-            return {result: false, message: "Error in close"};  
-        }
-        return {result: false, message: "Must provide a database name"};
+            } catch (err) {
+                return Promise.reject(err);
+            }        
+        } else {
+            return Promise.reject('Must provide a database name');
+        }        
     };
     /**
-     * Execute a set of Raw Statements
-     * @param statements string 
+     * Retrieve all Connections to Databases
+     * 
      */
-    const execute = async (statements: string) => {
-        if(statements.length > 0) {
-            const r = await mSQLite.execute({statements:statements});
+    const retrieveAllConnections = async (): Promise<Map<string, SQLiteDBConnection>> => {
+        try {
+            const r = await mSQLite.retrieveAllConnections();
             if(r) {
-                if( typeof r.changes != 'undefined') {
-                    return r;
-                }
-            } 
-            return {changes:{changes:0}, message: "Error in execute"};  
+                return Promise.resolve(r);
+            } else {
+                return Promise.reject("No returned connection");
+            }
+        } catch (err) {
+            return Promise.reject(err);
         }
-        return {changes:{changes:0},message:"Statements is empty"};
     };
     /**
-     * Execute a set of Raw Statements as any[]
-     * @param set any[] 
-     */
-    const executeSet = async (set: Set[]) => {
-        if(set.length > 0) {
-            const r = await mSQLite.executeSet({set:set});
-            if(r) {
-                if( typeof r.changes != 'undefined') {
-                    return r;
-                }
-            }           
-            return {changes:{changes: -1,lastId: -1},
-                                message: "Error in executeSet"};
-        }
-        return {changes:{changes:-1,lastId:-1},message:"Set is empty"};
-    };
-    /**
-     * Execute a Single Raw Statement
-     * @param statement string
-     * @param values any[] optional
-     */
-    const run = async (statement: string,
-                                  values?: any[]) => {
-        if(statement.length > 0) {
-            const vals: any[] = values ? values : [];
-            const r = await mSQLite.run({statement: statement,
-                                         values: vals});
-            if(r) {
-                if( typeof r.changes != 'undefined') {
-                    return r;
-                }
-            } 
-            return {changes:{changes:0}, message: "Error in run"};  
-        }
-        return {changes:{changes:0,lastId:-1},
-                                message: "Statement is empty"};
-    };
-    /**
-     * Query a Single Raw Statement
-     * @param statement string
-     * @param values string[] optional
-     */
-    const query = async (statement: string,
-                                     values?:string[]) => {
-        if(statement.length > 0) {
-            const vals: Array<any> = values ? values : [];
-            const r = await mSQLite.query({statement: statement,
-                                           values: vals});
-            if(r) {
-                if( typeof r.values != 'undefined') {
-                    return r;
-                }
-            } 
-            return {values:[], message: "Error in query"};  
-        }
-        return {values:[],message:"Statement is empty"};
-    };
-    /**
-     * Check if the Database file exists
+     * Close All Connections to Databases
      * @param dbName string
      */
-    const isDBExists = async (dbName: string) => {
-        if(dbName.length > 0) {
-            const r = await mSQLite.isDBExists({database:dbName});
-            if(r) {
-                if( typeof r.result != 'undefined') {
-                    return r;
-                }
-            } 
-            return {result: false, message: "Error in isDBExists"};  
+    const closeAllConnections = async (): Promise<void> => {
+        try {
+            await mSQLite.closeAllConnections();
+            return Promise.resolve();
+        } catch (err) {
+            return Promise.reject(err);
         }
-        return {result: false, message: "Must provide a database name"};
+    };
+
+    /**
+     * Import from Json 
+     * @param jsonstring string
+     */
+    const importFromJson = async (jsonstring: string): Promise<capSQLiteChanges> => {
+        try {
+            const r = await mSQLite.importFromJson(jsonstring);
+            if(r) {
+                return Promise.resolve(r);
+            } else {
+                return Promise.reject('Error in importFromJson');
+            } 
+        } catch (err) {
+            return Promise.reject(err);
+        }
     };
     /**
-     * Delete the Database file
-     * @param dbName string
+     * Is Json Valid
+     * @param jsonstring string
      */
-    const deleteDB = async (dbName: string) => {
-        if(dbName.length > 0) {
-            const r = await mSQLite.deleteDatabase({database:dbName});
+    const isJsonValid = async (jsonstring: string): Promise<Result> => {
+        try {
+            const r = await mSQLite.isJsonValid(jsonstring);
             if(r) {
-                if( typeof r.result != 'undefined') {
-                    return r;
-                }
+                return Promise.resolve(r);
+            } else {
+                return Promise.reject('Error Json Object not valid');
             } 
-            return {result: false, message: "Error in deleteDB"};  
+        } catch (err) {
+            return Promise.reject(err);
         }
-        return {result: false, message: "Must provide a database name"};
-    };
-    /**
-     * Check the validity of a JSON Object
-     * @param jsonstring string 
-     */
-    const isJsonValid = async (jsonstring: string) => {
-        if(jsonstring.length > 0) {
-            const r = await mSQLite.isJsonValid(
-                                        {jsonstring:jsonstring});
-            if(r) {
-                if( typeof r.result != 'undefined') {
-                    return r;
-                }
-            } 
-            return {result: false, message: "Error in isJsonValid"};  
-        }
-        return {result: false, message: "Must provide a Json string"};
-    };
-    /**
-     * Import a database From a JSON Object
-     * @param jsonstring string 
-     */
-    const importFromJson = async (jsonstring: string) => {
-        if(jsonstring.length > 0) {
-            const r = await mSQLite.importFromJson (
-                                        {jsonstring:jsonstring});
-            if(r) {
-                if( typeof r.changes != 'undefined') {
-                    return r;
-                }
-            } 
-            return {changes:{changes:-1},
-                            message: "Error in importFromJson"};  
-        }
-        return {changes:{changes:-1},
-                            message: "Must provide a Json string"};
-    };
-    /**
-     * Export the given database to a JSON Object
-     * @param mode string
-     */
-    const exportToJson = async (mode: string) => {
-        if(mode.length > 0) {
-            const r = await mSQLite.exportToJson({jsonexportmode:mode});
-            if(r) {
-                if( typeof r.export != 'undefined') {
-                    return r;
-                }
-            } 
-            return {export:{}, message: "Error in exportToJson"};  
-        }
-        return {export:{},message:"Must provide an export mode"};
-    };
-    /**
-     * Set the synchronization date
-     * @param syncDate string 
-     */
-    const setSyncDate = async (syncDate:string) => {
-        if(syncDate.length > 0) {
-            const r = await mSQLite.setSyncDate({syncdate:syncDate});
-            if(r) {
-                if( typeof r.result != 'undefined') {
-                    return r;
-                }
-            } 
-            return {result: false, message:"Error in setSyncDate"};
-        }
-        return {result: false,
-                    message:"Must provide a synchronization date"};
     };
     /**
      * Add the upgrade Statement for database version upgrading
      * @param dbName string 
      * @param upgrade VersionUpgrade
      */
-    const addUpgradeStatement = async (dbName:string,
-        upgrade: VersionUpgrade) => {
+    const addUpgradeStatement = async (dbName:string, upgrade: VersionUpgrade): 
+                                                      Promise<void> => {
+
         if(upgrade === null) {
-            return {result: false,
-                    message:"Must provide an upgrade statement"};
+            return Promise.reject(new Error("Must provide an upgrade statement"));
         }
         if(upgrade.fromVersion === null || upgrade.toVersion === null
-                        || upgrade.statement === null) {
-            let msg = "Must provide an upgrade statement with ";
-            msg += "fromVersion & toVersion & statement"
-            return {result: false,
-                message: msg};
-        }
+            || upgrade.statement === null) {
+                let msg = "Must provide an upgrade statement with ";
+                msg += "fromVersion & toVersion & statement"
+                return Promise.reject(msg);
+            }
 
         if(dbName.length > 0) {
-            const r = await mSQLite.addUpgradeStatement(
-                {database: dbName, upgrade: [upgrade]});
-            if(r) {
-                if( typeof r.result != 'undefined') {
-                    return r;
-                }
-            }  
+            try {
+                await mSQLite
+                .addUpgradeStatement(dbName, upgrade.fromVersion,
+                                    upgrade.toVersion, upgrade.statement,
+                                    upgrade.set);
+                return Promise.resolve();
+            } catch (err) {
+                return Promise.reject(err);
+            }
         } else {
-            return {result: false,
-                message:"Must provide a database name"};
+            return Promise.reject('Must provide a database name');
+        }
+    };
+    const copyFromAssets = async () : Promise<void> => {
+        const r = await mSQLite.copyFromAssets();
+        try {
+            await mSQLite.copyFromAssets();
+            return Promise.resolve();
+        } catch (err) {
+            return Promise.reject(err);
         }
     };
 
-    return { openDB, createSyncTable, close, execute, executeSet, run,
-             query, isDBExists, deleteDB, isJsonValid, importFromJson,
-             exportToJson, setSyncDate, addUpgradeStatement,
-             isAvailable: true };
+    if (!availableFeatures.useSQLite) {
+        return {
+            echo: featureNotAvailableError,
+            getPlatform: featureNotAvailableError,
+            createConnection: featureNotAvailableError,
+            closeConnection: featureNotAvailableError,
+            retrieveConnection: featureNotAvailableError,
+            retrieveAllConnections: featureNotAvailableError,
+            closeAllConnections: featureNotAvailableError,
+            addUpgradeStatement: featureNotAvailableError,
+            importFromJson: featureNotAvailableError,
+            isJsonValid: featureNotAvailableError,
+            copyFromAssets: featureNotAvailableError,
+            ...notAvailable
+        };
+    } else {
+        return {echo, getPlatform, createConnection, closeConnection,
+            retrieveConnection, retrieveAllConnections, closeAllConnections,
+            addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
+            isAvailable: true};
+    }
 }

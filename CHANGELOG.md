@@ -1,3 +1,68 @@
+## 1.0.0 (2021-01-27) REFACTOR
+
+## Chore
+
+- Move to branch 2.9.x tag latest
+- @capacitor-community/sqlite@2.9.6
+
+## 1.0.0-beta.4 (2021-01-14) REFACTOR
+
+## Chore
+
+- @capacitor/core@2.4.6
+- @capacitor-community/sqlite@2.9.0
+
+### Bug Fixes
+
+- Fix issue#60 remove Android permissions
+- Fix readme & changelog
+- fix APIHook.md
+
+## 1.0.0-beta.3 (2021-01-05) REFACTOR
+
+### Bug Fixes
+
+- fix README & CHANGELOG
+
+## 1.0.0-beta.2 (2021-01-04) REFACTOR
+
+### Added Features
+
+ - copyFromAssets
+
+## 1.0.0-beta.1 (2021-01-02) REFACTOR
+
+### Bug Fixes
+
+- fix getPlatform
+- fix README & CHANGELOG
+
+## 1.0.0-alpha.1 (2021-01-01) REFACTOR
+
+### Chore
+
+- @capacitor/core@2.4.5
+- @capacitor-community/sqlite@refactor
+
+### Added Features
+
+ - echo
+ - createConnection
+ - closeConnection
+ - retrieveConnection
+ - closeAllConnections
+ - retrieveAllConnections
+ - addUpgradeStatement
+ - requestPermissions
+ - importFromJson
+ - isJsonValid
+
+## 0.0.7 (2021-01-27)
+
+## Chore
+
+- Has been moved to tag 'INITIAL' 🛑 Not maintained anymore
+
 ## 0.0.6 (2021-01-13)
 
 ## Chore

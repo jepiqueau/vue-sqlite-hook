@@ -1,28 +1,25 @@
 <p align="center"><br><img src="https://user-images.githubusercontent.com/236501/85893648-1c92e880-b7a8-11ea-926d-95355b8175c7.png" width="128" height="128" /></p>
 <h2 align="center">API HOOK DOCUMENTATION</h2>
-<p align="center"><strong><code>vue-sqlite-hook</code></strong></p>
+<p align="center"><strong><code>vue-sqlite-hook@next</code></strong></p>
 <p align="center">
-  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite</code></strong> plugin in Vue or Ionic/Vue applications</p>
+  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@next</code></strong> plugin in Vue or Ionic/Vue applications</p>
 
 
 ## Methods Index
 
 <docgen-index>
 
-* [`openDB(...)`](#opendb)
-* [`createSyncTable()`](#createsynctable)
-* [`close(...)`](#close)
-* [`execute(...)`](#execute)
-* [`executeSet(...)`](#executeset)
-* [`run(...)`](#run)
-* [`query(...)`](#query)
-* [`isDBExists(...)`](#isdbexists)
-* [`deleteDB(...)`](#deletedb)
-* [`isJsonValid(...)`](#isjsonvalid)
-* [`importFromJson(...)`](#importfromjson)
-* [`exportToJson(...)`](#exporttojson)
-* [`setSyncDate(...)`](#setsyncdate)
+* [`echo(...)`](#echo)
+* [`getPlatform()`](#getplatform)
 * [`addUpgradeStatement(...)`](#addupgradestatement)
+* [`createConnection(...)`](#createconnection)
+* [`retrieveConnection(...)`](#retrieveconnection)
+* [`retrieveAllConnections()`](#retrieveallconnections)
+* [`closeConnection(...)`](#closeconnection)
+* [`closeAllConnections()`](#closeallconnections)
+* [`importFromJson(...)`](#importfromjson)
+* [`isJsonValid(...)`](#isjsonvalid)
+* [`copyFromAssets()`](#copyfromassets)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -34,193 +31,140 @@
 
 SQLite Hook Interface
 
-### openDB(...)
+### echo(...)
 
 ```typescript
-openDB(dbName: string, encrypted?: boolean | undefined, mode?: string | undefined, version?: number | undefined) => Promise<Result>
+echo(value: string) => Promise<capEchoResult>
 ```
 
-Open a database
+Echo a value
+
+| Param       | Type                |
+| ----------- | ------------------- |
+| **`value`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;<a href="#capechoresult">capEchoResult</a>&gt;</code>
+
+**Since:** 1.0.0 refactor
+
+--------------------
+
+
+### getPlatform()
+
+```typescript
+getPlatform() => Promise<{ platform: string; }>
+```
+
+Get platform
+
+**Returns:** <code>Promise&lt;{ platform: string; }&gt;</code>
+
+**Since:** 1.0.0 refactor
+
+--------------------
+
+
+### addUpgradeStatement(...)
+
+```typescript
+addUpgradeStatement(dbName: string, upgrade: VersionUpgrade) => Promise<void>
+```
+
+Add an Upgrade Statement to Update Database Version
+
+| Param         | Type                                                      | Description       |
+| ------------- | --------------------------------------------------------- | ----------------- |
+| **`dbName`**  | <code>string</code>                                       | database name     |
+| **`upgrade`** | <code><a href="#versionupgrade">VersionUpgrade</a></code> | upgrade statement |
+
+**Since:** 2.0.0
+
+--------------------
+
+
+### createConnection(...)
+
+```typescript
+createConnection(database: string, encrypted?: boolean | undefined, mode?: string | undefined, version?: number | undefined) => Promise<SQLiteDBConnection>
+```
+
+Create a connection to a database
 
 | Param           | Type                 |
 | --------------- | -------------------- |
-| **`dbName`**    | <code>string</code>  |
+| **`database`**  | <code>string</code>  |
 | **`encrypted`** | <code>boolean</code> |
 | **`mode`**      | <code>string</code>  |
 | **`version`**   | <code>number</code>  |
 
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+**Returns:** <code>Promise&lt;SQLiteDBConnection&gt;</code>
 
-**Since:** 0.0.1
-
---------------------
-
-
-### createSyncTable()
-
-```typescript
-createSyncTable() => Promise<capSQLiteChanges>
-```
-
-Create the synchronization table
-
-**Returns:** <code>Promise&lt;<a href="#capsqlitechanges">capSQLiteChanges</a>&gt;</code>
-
-**Since:** 0.0.1
+**Since:** 2.0.0
 
 --------------------
 
 
-### close(...)
+### retrieveConnection(...)
 
 ```typescript
-close(dbName: string) => Promise<Result>
+retrieveConnection(database: string) => Promise<SQLiteDBConnection>
 ```
 
-Close a database
+Retrieve an existing database connection
 
-| Param        | Type                |
-| ------------ | ------------------- |
-| **`dbName`** | <code>string</code> |
+| Param          | Type                |
+| -------------- | ------------------- |
+| **`database`** | <code>string</code> |
 
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+**Returns:** <code>Promise&lt;SQLiteDBConnection&gt;</code>
 
-**Since:** 0.0.1
+**Since:** 2.0.0
 
 --------------------
 
 
-### execute(...)
+### retrieveAllConnections()
 
 ```typescript
-execute(statements: string) => Promise<capSQLiteChanges>
+retrieveAllConnections() => Promise<Map<string, SQLiteDBConnection>>
 ```
 
-Execute multiple raw statements given in a string
+Retrieve all database connections
 
-| Param            | Type                |
-| ---------------- | ------------------- |
-| **`statements`** | <code>string</code> |
+**Returns:** <code>Promise&lt;<a href="#map">Map</a>&lt;string, SQLiteDBConnection&gt;&gt;</code>
 
-**Returns:** <code>Promise&lt;<a href="#capsqlitechanges">capSQLiteChanges</a>&gt;</code>
-
-**Since:** 0.0.1
+**Since:** 2.0.0
 
 --------------------
 
 
-### executeSet(...)
+### closeConnection(...)
 
 ```typescript
-executeSet(set: Set[]) => Promise<capSQLiteChanges>
+closeConnection(database: string) => Promise<void>
 ```
 
-Execute raw statements given in a set[]
+Close a database connection
 
-| Param     | Type               |
-| --------- | ------------------ |
-| **`set`** | <code>Set[]</code> |
+| Param          | Type                |
+| -------------- | ------------------- |
+| **`database`** | <code>string</code> |
 
-**Returns:** <code>Promise&lt;<a href="#capsqlitechanges">capSQLiteChanges</a>&gt;</code>
-
-**Since:** 0.0.1
+**Since:** 2.0.0
 
 --------------------
 
 
-### run(...)
+### closeAllConnections()
 
 ```typescript
-run(statement: string, values?: any[] | undefined) => Promise<capSQLiteChanges>
+closeAllConnections() => Promise<void>
 ```
 
-Execute a raw statement given in a string
+Close all database connections
 
-| Param           | Type                | Description |
-| --------------- | ------------------- | ----------- |
-| **`statement`** | <code>string</code> |             |
-| **`values`**    | <code>any[]</code>  | (optional)  |
-
-**Returns:** <code>Promise&lt;<a href="#capsqlitechanges">capSQLiteChanges</a>&gt;</code>
-
-**Since:** 0.0.1
-
---------------------
-
-
-### query(...)
-
-```typescript
-query(statement: string, values?: string[] | undefined) => Promise<capSQLiteValues>
-```
-
-Execute a query
-
-| Param           | Type                  | Description |
-| --------------- | --------------------- | ----------- |
-| **`statement`** | <code>string</code>   |             |
-| **`values`**    | <code>string[]</code> | (Optional)  |
-
-**Returns:** <code>Promise&lt;<a href="#capsqlitevalues">capSQLiteValues</a>&gt;</code>
-
-**Since:** 0.0.1
-
---------------------
-
-
-### isDBExists(...)
-
-```typescript
-isDBExists(dbName: string) => Promise<Result>
-```
-
-Check if a database exists
-
-| Param        | Type                |
-| ------------ | ------------------- |
-| **`dbName`** | <code>string</code> |
-
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
-
-**Since:** 0.0.1
-
---------------------
-
-
-### deleteDB(...)
-
-```typescript
-deleteDB(dbName: string) => Promise<Result>
-```
-
-Delete a database
-
-| Param        | Type                |
-| ------------ | ------------------- |
-| **`dbName`** | <code>string</code> |
-
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
-
-**Since:** 0.0.1
-
---------------------
-
-
-### isJsonValid(...)
-
-```typescript
-isJsonValid(jsonstring: string) => Promise<Result>
-```
-
-Check if a Json Object is valid
-
-| Param            | Type                |
-| ---------------- | ------------------- |
-| **`jsonstring`** | <code>string</code> |
-
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
-
-**Since:** 0.0.1
+**Since:** 2.0.0
 
 --------------------
 
@@ -231,88 +175,93 @@ Check if a Json Object is valid
 importFromJson(jsonstring: string) => Promise<capSQLiteChanges>
 ```
 
-Import a Json Object into a database
+Import a database From a JSON
 
-| Param            | Type                |
-| ---------------- | ------------------- |
-| **`jsonstring`** | <code>string</code> |
+| Param            | Type                | Description |
+| ---------------- | ------------------- | ----------- |
+| **`jsonstring`** | <code>string</code> | string      |
 
 **Returns:** <code>Promise&lt;<a href="#capsqlitechanges">capSQLiteChanges</a>&gt;</code>
 
-**Since:** 0.0.1
+**Since:** 1.0.0 refactor
 
 --------------------
 
 
-### exportToJson(...)
+### isJsonValid(...)
 
 ```typescript
-exportToJson(mode: string) => Promise<capSQLiteJson>
+isJsonValid(jsonstring: string) => Promise<Result>
 ```
 
-Export a Json Object from a database
+Check the validity of a JSON Object
 
-| Param      | Type                |
-| ---------- | ------------------- |
-| **`mode`** | <code>string</code> |
-
-**Returns:** <code>Promise&lt;<a href="#capsqlitejson">capSQLiteJson</a>&gt;</code>
-
-**Since:** 0.0.1
-
---------------------
-
-
-### setSyncDate(...)
-
-```typescript
-setSyncDate(syncDate: string) => Promise<Result>
-```
-
-<a href="#set">Set</a> the synchronization date
-
-| Param          | Type                | Description                       |
-| -------------- | ------------------- | --------------------------------- |
-| **`syncDate`** | <code>string</code> | Format yyyy-MM-dd'T'HH:mm:ss.SSSZ |
+| Param            | Type                | Description |
+| ---------------- | ------------------- | ----------- |
+| **`jsonstring`** | <code>string</code> | string      |
 
 **Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
 
-**Since:** 0.0.1
+**Since:** 1.0.0 refactor
 
 --------------------
 
 
-### addUpgradeStatement(...)
+### copyFromAssets()
 
 ```typescript
-addUpgradeStatement(dbName: string, upgrade: VersionUpgrade) => Promise<Result>
+copyFromAssets() => Promise<void>
 ```
 
-Add upgrade version statement
+Copy databases from assets to application database folder
 
-| Param         | Type                                                      |
-| ------------- | --------------------------------------------------------- |
-| **`dbName`**  | <code>string</code>                                       |
-| **`upgrade`** | <code><a href="#versionupgrade">VersionUpgrade</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
-
-**Since:** 0.0.1
+**Since:** 2.0.0
 
 --------------------
-
-
 
 
 ### Interfaces
 
 
-#### Result
+#### capEchoResult
 
-| Prop          | Type                 |
-| ------------- | -------------------- |
-| **`result`**  | <code>boolean</code> |
-| **`message`** | <code>string</code>  |
+| Prop        | Type                | Description     |
+| ----------- | ------------------- | --------------- |
+| **`value`** | <code>string</code> | String returned |
+
+
+#### VersionUpgrade
+
+| Prop              | Type                 |
+| ----------------- | -------------------- |
+| **`fromVersion`** | <code>number</code>  |
+| **`toVersion`**   | <code>number</code>  |
+| **`statement`**   | <code>string</code>  |
+| **`set`**         | <code>MySet[]</code> |
+
+
+#### MySet
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`statement`** | <code>string</code> |
+| **`values`**    | <code>any[]</code>  |
+
+
+#### Map
+
+| Prop       | Type                |
+| ---------- | ------------------- |
+| **`size`** | <code>number</code> |
+
+| Method      | Signature                                                                                                      |
+| ----------- | -------------------------------------------------------------------------------------------------------------- |
+| **clear**   | () =&gt; void                                                                                                  |
+| **delete**  | (key: K) =&gt; boolean                                                                                         |
+| **forEach** | (callbackfn: (value: V, key: K, map: <a href="#map">Map</a>&lt;K, V&gt;) =&gt; void, thisArg?: any) =&gt; void |
+| **get**     | (key: K) =&gt; V \| undefined                                                                                  |
+| **has**     | (key: K) =&gt; boolean                                                                                         |
+| **set**     | (key: K, value: V) =&gt; this                                                                                  |
 
 
 #### capSQLiteChanges
@@ -320,7 +269,6 @@ Add upgrade version statement
 | Prop          | Type                                        | Description                               |
 | ------------- | ------------------------------------------- | ----------------------------------------- |
 | **`changes`** | <code><a href="#changes">Changes</a></code> | a returned <a href="#changes">Changes</a> |
-| **`message`** | <code>string</code>                         | a returned message                        |
 
 
 #### Changes
@@ -331,83 +279,12 @@ Add upgrade version statement
 | **`lastId`**  | <code>number</code> | the lastId created from a run command                |
 
 
-#### Set
+#### Result
 
-| Prop       | Type                |
-| ---------- | ------------------- |
-| **`size`** | <code>number</code> |
-
-| Method      | Signature                                                                                                      |
-| ----------- | -------------------------------------------------------------------------------------------------------------- |
-| **add**     | (value: T) =&gt; this                                                                                          |
-| **clear**   | () =&gt; void                                                                                                  |
-| **delete**  | (value: T) =&gt; boolean                                                                                       |
-| **forEach** | (callbackfn: (value: T, value2: T, set: <a href="#set">Set</a>&lt;T&gt;) =&gt; void, thisArg?: any) =&gt; void |
-| **has**     | (value: T) =&gt; boolean                                                                                       |
-
-
-#### capSQLiteValues
-
-| Prop          | Type                | Description                      |
-| ------------- | ------------------- | -------------------------------- |
-| **`values`**  | <code>any[]</code>  | the data values list as an Array |
-| **`message`** | <code>string</code> | a returned message               |
-
-
-#### capSQLiteJson
-
-| Prop          | Type                                              | Description           |
-| ------------- | ------------------------------------------------- | --------------------- |
-| **`export`**  | <code><a href="#jsonsqlite">JsonSQLite</a></code> | an export JSON object |
-| **`message`** | <code>string</code>                               | a returned message    |
-
-
-#### JsonSQLite
-
-| Prop            | Type                     | Description                                                  |
-| --------------- | ------------------------ | ------------------------------------------------------------ |
-| **`database`**  | <code>string</code>      | The database name                                            |
-| **`version`**   | <code>number</code>      | The database version                                         |
-| **`encrypted`** | <code>boolean</code>     | <a href="#set">Set</a> to true (database encryption) / false |
-| **`mode`**      | <code>string</code>      | * Set the mode ["full", "partial"]                           |
-| **`tables`**    | <code>JsonTable[]</code> | * Array of Table (<a href="#jsontable">JsonTable</a>)        |
-
-
-#### JsonTable
-
-| Prop          | Type                      | Description                                              |
-| ------------- | ------------------------- | -------------------------------------------------------- |
-| **`name`**    | <code>string</code>       | The database name                                        |
-| **`schema`**  | <code>JsonColumn[]</code> | * Array of Schema (<a href="#jsoncolumn">JsonColumn</a>) |
-| **`indexes`** | <code>JsonIndex[]</code>  | * Array of Index (<a href="#jsonindex">JsonIndex</a>)    |
-| **`values`**  | <code>any[][]</code>      | * Array of Table data                                    |
-
-
-#### JsonColumn
-
-| Prop             | Type                | Description                         |
-| ---------------- | ------------------- | ----------------------------------- |
-| **`column`**     | <code>string</code> | The column name                     |
-| **`value`**      | <code>string</code> | The column data (type, unique, ...) |
-| **`foreignkey`** | <code>string</code> | The column foreign key constraints  |
-
-
-#### JsonIndex
-
-| Prop         | Type                | Description                   |
-| ------------ | ------------------- | ----------------------------- |
-| **`name`**   | <code>string</code> | The index name                |
-| **`column`** | <code>string</code> | The column name to be indexed |
-
-
-#### VersionUpgrade
-
-| Prop              | Type                |
-| ----------------- | ------------------- |
-| **`fromVersion`** | <code>number</code> |
-| **`toVersion`**   | <code>number</code> |
-| **`statement`**   | <code>string</code> |
-| **`set`**         | <code>Set[]</code>  |
+| Prop          | Type                 |
+| ------------- | -------------------- |
+| **`result`**  | <code>boolean</code> |
+| **`message`** | <code>string</code>  |
 
 </docgen-api>
 
