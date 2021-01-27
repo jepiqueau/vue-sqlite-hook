@@ -1,6 +1,6 @@
 {
   "name": "vue-sqlite-hook",
-  "version": "0.0.6",
+  "version": "1.0.0-beta.4",
   "description": "Vue Hook for @capacitor-community/sqlite",
   "repository": {
     "type": "git",
@@ -25,32 +25,38 @@
     "transpile": "tsc --module ES2015 --target es2017 --outDir dist",
     "clean": "rimraf dist",
     "build-old": "node scripts/build.js",
+    "docgen": "docgen --api SQLiteHook --output-readme docs/APIHook.md",
     "test": "jest"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^3.0.4"
+    "core-js": "^3.8.3",
+    "vue": "next"
   },
   "devDependencies": {
-    "@capacitor-community/sqlite": "^2.4.5-3",
-    "@capacitor/core": "^2.4.5",
-    "@types/jest": "^24.0.23",
-    "@vue/cli-plugin-babel": "~4.5.9",
-    "@vue/cli-plugin-eslint": "~4.5.9",
-    "@vue/cli-service": "~4.5.9",
-    "@vue/compiler-sfc": "^3.0.4",
+    "@capacitor-community/sqlite": "latest",
+    "@capacitor/core": "^2.4.6",
+    "@capacitor/docgen": "0.0.14",
+    "@types/jest": "^26.0.20",
+    "@vue/cli-plugin-babel": "^4.5.11",
+    "@vue/cli-plugin-eslint": "^4.5.11",
+    "@vue/cli-service": "^4.5.11",
+    "@vue/compiler-sfc": "^3.0.5",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.16.0",
-    "eslint-plugin-vue": "^7.4.0",
-    "jest": "^26.5.2",
-    "jest-environment-jsdom-fourteen": "^0.1.0",
-    "np": "^7.0.0",
+    "eslint": "^7.18.0",
+    "eslint-plugin-vue": "^7.5.0",
+    "jest": "^26.6.3",
+    "jest-environment-jsdom-fourteen": "^1.0.1",
+    "np": "^7.2.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
-    "ts-jest": "^26.2.0",
-    "typedoc": "^0.19.2",
+    "ts-jest": "^26.4.4",
+    "typedoc": "^0.20.19",
     "typescript": "^4.0.5",
-    "uglify-js": "^3.4.8"
+    "uglify-js": "^3.12.5"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^2.4.6",
+    "@capacitor-community/sqlite": "latest"
   },
   "eslintConfig": {
     "root": true,
