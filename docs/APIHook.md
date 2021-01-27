@@ -315,10 +315,17 @@ Add upgrade version statement
 
 #### capSQLiteChanges
 
+| Prop          | Type                                        | Description                               |
+| ------------- | ------------------------------------------- | ----------------------------------------- |
+| **`changes`** | <code><a href="#changes">Changes</a></code> | a returned <a href="#changes">Changes</a> |
+
+
+#### Changes
+
 | Prop          | Type                | Description                                          |
 | ------------- | ------------------- | ---------------------------------------------------- |
-| **`changes`** | <code>any</code>    | the number of changes from an execute or run command |
-| **`message`** | <code>string</code> | a returned message                                   |
+| **`changes`** | <code>number</code> | the number of changes from an execute or run command |
+| **`lastId`**  | <code>number</code> | the lastId created from a run command                |
 
 
 #### Set
@@ -338,18 +345,16 @@ Add upgrade version statement
 
 #### capSQLiteValues
 
-| Prop          | Type                | Description                      |
-| ------------- | ------------------- | -------------------------------- |
-| **`values`**  | <code>any[]</code>  | the data values list as an Array |
-| **`message`** | <code>string</code> | a returned message               |
+| Prop         | Type               | Description                      |
+| ------------ | ------------------ | -------------------------------- |
+| **`values`** | <code>any[]</code> | the data values list as an Array |
 
 
 #### capSQLiteJson
 
-| Prop          | Type                                              | Description           |
-| ------------- | ------------------------------------------------- | --------------------- |
-| **`export`**  | <code><a href="#jsonsqlite">JsonSQLite</a></code> | an export JSON object |
-| **`message`** | <code>string</code>                               | a returned message    |
+| Prop         | Type                                              | Description           |
+| ------------ | ------------------------------------------------- | --------------------- |
+| **`export`** | <code><a href="#jsonsqlite">JsonSQLite</a></code> | an export JSON object |
 
 
 #### JsonSQLite
@@ -384,10 +389,11 @@ Add upgrade version statement
 
 #### JsonIndex
 
-| Prop         | Type                | Description                   |
-| ------------ | ------------------- | ----------------------------- |
-| **`name`**   | <code>string</code> | The index name                |
-| **`column`** | <code>string</code> | The column name to be indexed |
+| Prop        | Type                | Description                                                                                                             |
+| ----------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`name`**  | <code>string</code> | The index name                                                                                                          |
+| **`value`** | <code>string</code> | The value of the index can have the following formats: email email ASC email, MobileNumber email ASC, MobileNumber DESC |
+| **`mode`**  | <code>string</code> | the mode (Optional) UNIQUE                                                                                              |
 
 
 #### VersionUpgrade
