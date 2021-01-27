@@ -1,23 +1,35 @@
 <p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
-<h3 align="center">Vue Hook for @capacitor-community/sqlite</h3>
-<p align="center"><strong><code>vue-sqlite-hook</code></strong></p>
+<h3 align="center">Vue Hook for @capacitor-community/sqlite plugin</h3>
+<p align="center"><strong><code>vue-sqlite-hook@initial</code></strong></p>
+<p align="center">
+  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@initial</code></strong> plugin in Vue or Ionic/Vue applications
+</p>
 <br>
 <p align="center">
-    <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
+    <img src="https://img.shields.io/maintenance/no/2021?style=flat-square" />
     <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/l/vue-sqlite-hook?style=flat-square" /></a>
 <br>
   <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/dw/vue-sqlite-hook?style=flat-square" /></a>
-  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/v/vue-sqlite-hook?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/v/vue-sqlite-hook/initial?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 <br>
 
-## REFACTOR 🚀
+## @NEXT For Capacitor 3 🚧 (Master)
 
-A refactor of vue-sqlite-hook is now available `vue-sqlite-hook@refactor` to interface the `@capacitor-community/sqlite@refactor`
+The `Capacitor3`vue-sqlite-hook interfacing the `@capacitor-community/sqlite@next`
+
+## @LATEST REFACTOR 🚀 (Move to branch 2.9.x)
+
+The `refactor` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
+
+## @INITIAL 🛑 (Move to branch 2.4.x)
+
+The `initial` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@initial`. !!! The MAINTAINANCE is now STOPPED !!!
+<br>
 
 
 ## Maintainers
@@ -30,17 +42,17 @@ A refactor of vue-sqlite-hook is now available `vue-sqlite-hook@refactor` to int
 ## Installation
 
 ```bash
-npm install --save @capacitor-community/sqlite
-npm install --save-dev vue-sqlite-hook
+npm install --save @capacitor-community/sqlite@initial
+npm install --save-dev vue-sqlite-hook@initial
 ```
 
 ## Applications demonstrating the use of the plugin and the vue hook
 
 ### Vue 3
- - [vue-sqlite-app] (https://github.com/jepiqueau/vue-sqlite-app)
+ - [vue-sqlite-app] (https://github.com/jepiqueau/vue-sqlite-app/tree/2.4.x)
 
 ### Ionic/Vue
- - [vue-sqlite-app-starter] (https://github.com/jepiqueau/vue-sqlite-app-starter)
+ - [vue-sqlite-app-starter] (https://github.com/jepiqueau/vue-sqlite-app-starter/tree/2.4.x)
 
 
 ## Usage
@@ -266,7 +278,6 @@ h1 {
 }
 </style>
 ```
-
 
 
 ## Contributors ✨

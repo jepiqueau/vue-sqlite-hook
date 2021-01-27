@@ -1,3 +1,9 @@
+## 0.0.7 (2021-01-27)
+
+## Chore
+
+- Has been moved to tag 'INITIAL' 🛑 Not maintained anymore
+
 ## 0.0.6 (2021-01-13)
 
 ## Chore

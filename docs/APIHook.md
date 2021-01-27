@@ -302,8 +302,6 @@ Add upgrade version statement
 --------------------
 
 
-
-
 ### Interfaces
 
 
@@ -317,18 +315,10 @@ Add upgrade version statement
 
 #### capSQLiteChanges
 
-| Prop          | Type                                        | Description                               |
-| ------------- | ------------------------------------------- | ----------------------------------------- |
-| **`changes`** | <code><a href="#changes">Changes</a></code> | a returned <a href="#changes">Changes</a> |
-| **`message`** | <code>string</code>                         | a returned message                        |
-
-
-#### Changes
-
 | Prop          | Type                | Description                                          |
 | ------------- | ------------------- | ---------------------------------------------------- |
-| **`changes`** | <code>number</code> | the number of changes from an execute or run command |
-| **`lastId`**  | <code>number</code> | the lastId created from a run command                |
+| **`changes`** | <code>any</code>    | the number of changes from an execute or run command |
+| **`message`** | <code>string</code> | a returned message                                   |
 
 
 #### Set
