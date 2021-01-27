@@ -1,3 +1,10 @@
+## 2.0.0-alpha.1 (2021-01-27) CAPACITOR 3
+
+## Chore
+
+- @capacitor/core@3.0.0-beta.1
+- @capacitor-community/sqlite@3.0.0-beta.2
+
 ## 1.0.0 (2021-01-27) REFACTOR
 
 ## Chore
