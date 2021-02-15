@@ -13,6 +13,7 @@
 * [`getPlatform()`](#getplatform)
 * [`addUpgradeStatement(...)`](#addupgradestatement)
 * [`createConnection(...)`](#createconnection)
+* [`isConnection(...)`](#isconnection)
 * [`retrieveConnection(...)`](#retrieveconnection)
 * [`retrieveAllConnections()`](#retrieveallconnections)
 * [`closeConnection(...)`](#closeconnection)
@@ -20,6 +21,10 @@
 * [`importFromJson(...)`](#importfromjson)
 * [`isJsonValid(...)`](#isjsonvalid)
 * [`copyFromAssets()`](#copyfromassets)
+* [`isDatabase(...)`](#isdatabase)
+* [`getDatabaseList()`](#getdatabaselist)
+* [`addSQLiteSuffix(...)`](#addsqlitesuffix)
+* [`deleteOldDatabases(...)`](#deleteolddatabases)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -103,6 +108,25 @@ Create a connection to a database
 **Returns:** <code>Promise&lt;SQLiteDBConnection | <a href="#result">Result</a> | null&gt;</code>
 
 **Since:** 1.0.0 refactor
+
+--------------------
+
+
+### isConnection(...)
+
+```typescript
+isConnection(database: string) => Promise<Result>
+```
+
+Check if a connection exists
+
+| Param          | Type                |
+| -------------- | ------------------- |
+| **`database`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+
+**Since:** 1.0.1 refactor
 
 --------------------
 
@@ -228,6 +252,78 @@ Copy databases from assets to application database folder
 --------------------
 
 
+### isDatabase(...)
+
+```typescript
+isDatabase(database: string) => Promise<Result>
+```
+
+Check if a database exists
+
+| Param          | Type                |
+| -------------- | ------------------- |
+| **`database`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+
+**Since:** 1.0.1 refactor
+
+--------------------
+
+
+### getDatabaseList()
+
+```typescript
+getDatabaseList() => Promise<capSQLiteValues>
+```
+
+Get the database list
+
+**Returns:** <code>Promise&lt;<a href="#capsqlitevalues">capSQLiteValues</a>&gt;</code>
+
+**Since:** 1.0.1 refactor
+
+--------------------
+
+
+### addSQLiteSuffix(...)
+
+```typescript
+addSQLiteSuffix(folderPath?: string | undefined) => Promise<Result>
+```
+
+Add SQLIte Suffix to existing databases
+
+| Param            | Type                |
+| ---------------- | ------------------- |
+| **`folderPath`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+
+**Since:** 1.0.1 refactor
+
+--------------------
+
+
+### deleteOldDatabases(...)
+
+```typescript
+deleteOldDatabases(folderPath?: string | undefined) => Promise<Result>
+```
+
+Delete Old Cordova databases
+
+| Param            | Type                |
+| ---------------- | ------------------- |
+| **`folderPath`** | <code>string</code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+
+**Since:** 1.0.1 refactor
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -278,6 +374,14 @@ Copy databases from assets to application database folder
 | ------------- | ------------------- | ---------------------------------------------------- |
 | **`changes`** | <code>number</code> | the number of changes from an execute or run command |
 | **`lastId`**  | <code>number</code> | the lastId created from a run command                |
+
+
+#### capSQLiteValues
+
+| Prop          | Type                | Description                      |
+| ------------- | ------------------- | -------------------------------- |
+| **`values`**  | <code>any[]</code>  | the data values list as an Array |
+| **`message`** | <code>string</code> | a returned message               |
 
 </docgen-api>
 

@@ -1,3 +1,13 @@
+## 1.0.1 (2021-02-15) REFACTOR
+
+## Added Features
+
+- isConnection method
+- isDatabase method
+- getDatabaseList method
+- addSQLiteSuffix method
+- deleteOldDatabases method
+
 ## 1.0.0 (2021-01-27) REFACTOR
 
 ## Chore

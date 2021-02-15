@@ -3,7 +3,7 @@ import { AvailableResult, notAvailable } from './util/models';
 import { isFeatureAvailable, featureNotAvailableError } from './util/feature-check';
 import '@capacitor-community/sqlite';
 import { SQLiteDBConnection, SQLiteConnection, capEchoResult,
-         capSQLiteChanges } from '@capacitor-community/sqlite';
+         capSQLiteChanges, capSQLiteValues } from '@capacitor-community/sqlite';
 
 export { SQLiteDBConnection }
 
@@ -43,6 +43,13 @@ export interface SQLiteHook extends  AvailableResult {
      */
     createConnection(database: string, encrypted?: boolean, mode?: string,
                      version?: number,): Promise<SQLiteDBConnection | Result | null>;
+    /**
+     * Check if a connection exists
+     * @param database
+     * @returns Promise<Result>
+     * @since 1.0.1 refactor
+     */
+    isConnection(database: string): Promise<Result>;
     /**
      * Retrieve an existing database connection
      * @param database
@@ -89,6 +96,34 @@ export interface SQLiteHook extends  AvailableResult {
      * @since 1.0.0 refactor
      */
     copyFromAssets(): Promise<Result>;
+    /**
+     * Check if a database exists
+     * @param database
+     * @returns Promise<Result>
+     * @since 1.0.1 refactor
+     */
+    isDatabase(database: string): Promise<Result>;
+    /**
+     * Get the database list
+     * @returns Promise<capSQLiteValues>
+     * @since 1.0.1 refactor
+     */
+    getDatabaseList(): Promise<capSQLiteValues>;
+
+    /**
+     * Add SQLIte Suffix to existing databases
+     * @param folderPath
+     * @returns Promise<Result>
+     * @since 1.0.1 refactor
+     */
+    addSQLiteSuffix(folderPath?: string): Promise<Result>;
+    /**
+     * Delete Old Cordova databases
+     * @param folderPath
+     * @returns Promise<Result>
+     * @since 1.0.1 refactor
+     */
+    deleteOldDatabases(folderPath?: string): Promise<Result>;
 
 }
 
@@ -186,6 +221,22 @@ export function useSQLite(): SQLiteHook {
                 }
             } 
             return {result: false, message: "Error in closeConnection"};  
+        }
+        return {result: false, message: "Must provide a database name"};
+    };
+    /**
+     * Check if the Connection to the Database exists
+     * @param dbName string
+     */
+    const isConnection = async (dbName: string): Promise<Result> => {
+        if(dbName.length > 0) {
+            const r = await mSQLite.isConnection(dbName);
+            if(r) {
+                if( typeof r.result != 'undefined') {
+                    return r;
+                }
+            } 
+            return {result: false, message: "Error in isConnection"};  
         }
         return {result: false, message: "Must provide a database name"};
     };
@@ -291,6 +342,10 @@ export function useSQLite(): SQLiteHook {
                     message:"Must provide a database name"};
         }
     };
+    /**
+     * copy database from assets folder
+     * @param dbName string
+     */
     const copyFromAssets = async () : Promise<Result> => {
         const r = await mSQLite.copyFromAssets();
         if(r) {
@@ -301,7 +356,63 @@ export function useSQLite(): SQLiteHook {
         return {result: false,
                 message:"copyFromAssets failed"};
     };
+    /**
+     * Check if the Database exists
+     * @param dbName string
+     */
+    const isDatabase = async (dbName: string): Promise<Result> => {
+        if(dbName.length > 0) {
+            const r = await mSQLite.isDatabase(dbName);
+            if(r) {
+                if( typeof r.result != 'undefined') {
+                    return r;
+                }
+            } 
+            return {result: false, message: "Error in isDatabase"};  
+        }
+        return {result: false, message: "Must provide a database name"};
+    };
+    /**
+     * Get the list of databases
+     */
+    const getDatabaseList = async (): Promise<capSQLiteValues> => {
+        const r = await mSQLite.getDatabaseList();
+        if(r) {
+            if( typeof r.values != 'undefined') {
+                return r;
+            }
+        } 
+        return {values: [], message: "Error in getDatabaseList"};  
+    }
+    /**
+     * Add SQLite suffix to cordova databases
+     * @param folderPath 
+     */
+    const addSQLiteSuffix = async (folderPath?: string): Promise<Result> => {
+        const path: string = folderPath ? folderPath : "default"
+        const r = await mSQLite.addSQLiteSuffix(path);
+        if(r) {
+            if( typeof r.result != 'undefined') {
+                return r;
+            }
+        } 
+        return {result: false, message: "Error in addSQLiteSuffix"};  
+    }
+    /**
+     * Delete Cordova databases
+     * @param folderPath 
+     */
+    const deleteOldDatabases = async (folderPath?: string): Promise<Result> => {
+        const path: string = folderPath ? folderPath : "default"
+        const r = await mSQLite.deleteOldDatabases(path);
+        if(r) {
+            if( typeof r.result != 'undefined') {
+                return r;
+            }
+        } 
+        return {result: false, message: "Error in deleteOldDatabases"};  
 
+    }
     if (!availableFeatures.useSQLite) {
         return {
             echo: featureNotAvailableError,
@@ -315,12 +426,19 @@ export function useSQLite(): SQLiteHook {
             importFromJson: featureNotAvailableError,
             isJsonValid: featureNotAvailableError,
             copyFromAssets: featureNotAvailableError,
+            isConnection: featureNotAvailableError,
+            isDatabase: featureNotAvailableError,
+            getDatabaseList: featureNotAvailableError,
+            addSQLiteSuffix: featureNotAvailableError,
+            deleteOldDatabases: featureNotAvailableError,
             ...notAvailable
         };
     } else {
         return {echo, getPlatform, createConnection, closeConnection,
             retrieveConnection, retrieveAllConnections, closeAllConnections,
             addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
+            isConnection, isDatabase, getDatabaseList, addSQLiteSuffix,
+            deleteOldDatabases,
             isAvailable: true};
     }
 }
