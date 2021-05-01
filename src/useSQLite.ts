@@ -7,6 +7,15 @@ import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capEchoResult,
 export { SQLiteDBConnection }
 
 /**
+ * SQLite properties
+ * @since 2.0.1
+ */
+export type SQLiteProps = {
+    onProgressImport?: (progress: string) => void;
+    onProgressExport?: (progress: string) => void;
+}
+
+/**
  * SQLite Hook Interface
  */
 export interface SQLiteHook extends  AvailableResult {
@@ -101,28 +110,41 @@ export interface SQLiteHook extends  AvailableResult {
      * @returns Promise<Result>
      * @since 2.0.0
      */
-     isDatabase(database: string): Promise<Result>;
-     /**
-      * Get the database list
-      * @returns Promise<capSQLiteValues>
-      * @since 2.0.0
-      */
-     getDatabaseList(): Promise<capSQLiteValues>;
+    isDatabase(database: string): Promise<Result>;
+    /**
+     * Get the database list
+     * @returns Promise<capSQLiteValues>
+     * @since 2.0.0
+     */
+    getDatabaseList(): Promise<capSQLiteValues>;
  
-     /**
-      * Add SQLIte Suffix to existing databases
-      * @param folderPath
-      * @returns Promise<void>
-      * @since 2.0.0
-      */
-     addSQLiteSuffix(folderPath?: string): Promise<void>;
-     /**
-      * Delete Old Cordova databases
-      * @param folderPath
-      * @returns Promise<void>
-      * @since 2.0.0
-      */
-     deleteOldDatabases(folderPath?: string): Promise<void>;
+    /**
+     * Add SQLIte Suffix to existing databases
+     * @param folderPath
+     * @returns Promise<void>
+     * @since 2.0.0
+     */
+    addSQLiteSuffix(folderPath?: string): Promise<void>;
+    /**
+     * Delete Old Cordova databases
+     * @param folderPath
+     * @returns Promise<void>
+     * @since 2.0.0
+     */
+    deleteOldDatabases(folderPath?: string): Promise<void>;
+    /**
+     * Check the consistency between Js Connections
+     * and Native Connections
+     * if inconsistency all connections are removed
+     * @returns Promise<Result>
+     * @since 2.0.1
+     */
+    checkConnectionsConsistency(): Promise<Result>;
+    /**
+     * Remove Json Listeners
+     * @since 2.0.1
+     */
+    removeListeners(): Promise<void>;
  
 }
 
@@ -148,15 +170,38 @@ export let availableFeatures: any;
  * useSQLite Hook
  */
 
-export function useSQLite(): SQLiteHook {
+export function useSQLite({
+    onProgressImport,
+    onProgressExport
+}: SQLiteProps): SQLiteHook {
     const platform = Capacitor.getPlatform();
     const sqlitePlugin: any = CapacitorSQLite;
     const mSQLite = new SQLiteConnection(sqlitePlugin);
+    // add listeners
+    let importListener: any = null;
+    let exportListener: any = null;    
+    if(onProgressImport && sqlitePlugin) importListener =
+        sqlitePlugin.addListener('sqliteImportProgressEvent',
+        (e: any) => {
+            onProgressImport(e.progress);
+        });
+    if(onProgressExport && sqlitePlugin) exportListener =
+        sqlitePlugin.addListener('sqliteExportProgressEvent',
+        (e: any) => {
+            onProgressExport(e.progress);
+        });
 
     availableFeatures = {
         useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
     }
     
+    /**
+     * Remove Json Listeners
+     */
+    const removeListeners = async (): Promise<void> => {
+        importListener.remove();
+        exportListener.remove();
+    }
     /**
      * Echo value
      * @param value 
@@ -435,6 +480,24 @@ export function useSQLite(): SQLiteHook {
             return Promise.reject(err);
         }
     }
+    /**
+     * Check the consistency between Js Connections
+     * and Native Connections
+     * if inconsistency all connections are removed
+     */
+    const checkConnectionsConsistency = async () : Promise<Result> => {
+        try {
+            const r = await mSQLite.checkConnectionsConsistency();
+            if(r) {
+                return Promise.resolve(r);
+            } else {
+                return Promise.reject('Error Json Object not valid');
+            } 
+        } catch (err) {
+            return Promise.reject(err);
+        }
+
+    }
 
     if (!availableFeatures.useSQLite) {
         return {
@@ -454,6 +517,8 @@ export function useSQLite(): SQLiteHook {
             getDatabaseList: featureNotAvailableError,
             addSQLiteSuffix: featureNotAvailableError,
             deleteOldDatabases: featureNotAvailableError,
+            checkConnectionsConsistency: featureNotAvailableError,
+            removeListeners: featureNotAvailableError,
             ...notAvailable
         };
     } else {
@@ -461,7 +526,7 @@ export function useSQLite(): SQLiteHook {
             retrieveConnection, retrieveAllConnections, closeAllConnections,
             addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
             isConnection, isDatabase, getDatabaseList, addSQLiteSuffix,
-            deleteOldDatabases,
-            isAvailable: true};
+            deleteOldDatabases, checkConnectionsConsistency,
+            removeListeners, isAvailable: true};
     }
 }

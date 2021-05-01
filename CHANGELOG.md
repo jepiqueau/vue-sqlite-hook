@@ -1,4 +1,13 @@
-## 2.0.0 (2021-03-20) CAPACITOR 3
+## 2.0.1 (2021-05-01) CAPACITOR 3 NEXT
+
+### Added Features
+
+- add `checkConnectionsConsistency` method
+- add `import` & `export` JSON Listeners
+- add `removeListeners` method
+- update README.md & APIHook.md
+
+## 2.0.0 (2021-03-20) CAPACITOR 3 NEXT
 
 ## Chore
 

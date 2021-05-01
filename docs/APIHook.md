@@ -25,9 +25,13 @@
 * [`getDatabaseList()`](#getdatabaselist)
 * [`addSQLiteSuffix(...)`](#addsqlitesuffix)
 * [`deleteOldDatabases(...)`](#deleteolddatabases)
+* [`checkConnectionsConsistency()`](#checkconnectionsconsistency)
+* [`removeListeners()`](#removelisteners)
 * [Interfaces](#interfaces)
 
 </docgen-index>
+
+* [Listeners](#listeners)
 
 ## API Hook
 
@@ -312,6 +316,36 @@ Delete Old Cordova databases
 --------------------
 
 
+### checkConnectionsConsistency()
+
+```typescript
+checkConnectionsConsistency() => Promise<Result>
+```
+
+Check the consistency between Js Connections
+and Native Connections
+if inconsistency all connections are removed
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&gt;</code>
+
+**Since:** 2.0.1
+
+--------------------
+
+
+### removeListeners()
+
+```typescript
+removeListeners() => Promise<void>
+```
+
+Remove Json Listeners
+
+**Since:** 2.0.1
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -386,4 +420,15 @@ Delete Old Cordova databases
 | **`values`** | <code>any[]</code> | the data values list as an Array |
 
 </docgen-api>
+
+### Listeners
+
+`Available since 2.0.1`
+
+The listeners are attached to the plugin.
+
+| Listener             | Type               |  Description                                               |
+| -------------------- | ------------------ | ---------------------------------------------------------- |
+| **onProgressImport** | {progress: string} | Emitted at different steps of the `importFromJson` process |
+| **onProgressExport** | {progress: string} | Emitted at different steps of the `exportToJson` process   |
 

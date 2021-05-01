@@ -136,7 +136,7 @@ jest.mock('@capacitor-community/sqlite', () => {
 it('Check CapacitorSQLite available for web platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(false, 'web')
-    const { isAvailable } = useSQLite();
+    const { isAvailable } = useSQLite({});
     expect(isAvailable).toBe(false);   
 
 });
@@ -144,7 +144,7 @@ it('Check CapacitorSQLite available for web platform', async () => {
 it('Check CapacitorSQLite available for ios platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true,'ios');
-    const { isAvailable } = useSQLite();
+    const { isAvailable } = useSQLite({});
     expect(isAvailable).toBe(true);
 
 });
@@ -152,13 +152,13 @@ it('Check CapacitorSQLite available for ios platform', async () => {
 it('Check CapacitorSQLite available for android platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true,'android'); 
-    const { isAvailable } = useSQLite();
+    const { isAvailable } = useSQLite({});
     expect(isAvailable).toBe(true);
 });
 it('Check CapacitorSQLite available for electron platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true, 'electron');
-    const { isAvailable } = useSQLite();
+    const { isAvailable } = useSQLite({});
     expect(isAvailable).toBe(true);
 });
 
@@ -166,7 +166,7 @@ it('Check CapacitorSQLite echo for ios platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true,'ios');
     
-    const { echo } = useSQLite();
+    const { echo } = useSQLite({});
     const res: any = await echo("hello"); 
     expect(res.value).toEqual("hello");
   
@@ -175,7 +175,7 @@ it('Check CapacitorSQLite createConnection for ios platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true,'ios');
     
-    const { createConnection } = useSQLite();
+    const { createConnection } = useSQLite({});
     const res: any = await createConnection("testDB"); 
     expect(res).not.toBeNull();
   
@@ -184,7 +184,7 @@ it('Check CapacitorSQLite retrieveConnection for ios platform', async () => {
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true,'ios');
     
-    const { createConnection, retrieveConnection } = useSQLite();
+    const { createConnection, retrieveConnection } = useSQLite({});
     let res: any = await createConnection("testDB"); 
     expect(res).not.toBeNull();
     res = await retrieveConnection("testDB");
@@ -196,7 +196,7 @@ it('Check CapacitorSQLite closeConnection for ios platform', async () => {
     await capacitorMock.init(true,'ios');
     
     const { createConnection, closeConnection,
-    retrieveConnection } = useSQLite();
+    retrieveConnection } = useSQLite({});
     let res: any = await createConnection("testDB"); 
     expect(res).not.toBeNull();
     expect.assertions(2);
@@ -212,7 +212,7 @@ it('Check CapacitorSQLite create two connections for ios platform', async () => 
     const capacitorMock = (Capacitor as any);
     await capacitorMock.init(true,'ios');
     
-    const { createConnection, retrieveAllConnections } = useSQLite();
+    const { createConnection, retrieveAllConnections } = useSQLite({});
 
     let res: any = await createConnection("testFirstDB"); 
     expect(res).not.toBeNull();
@@ -230,7 +230,7 @@ it('Check CapacitorSQLite close all connections for ios platform', async () => {
     await capacitorMock.init(true,'ios');
     
     const { createConnection, closeAllConnections,
-        retrieveAllConnections } = useSQLite();
+        retrieveAllConnections } = useSQLite({});
 
     expect.assertions(6);
 
