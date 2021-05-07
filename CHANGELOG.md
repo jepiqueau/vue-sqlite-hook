@@ -1,3 +1,16 @@
+## 2.0.2 (2021-05-07) CAPACITOR 3 NEXT
+
+### Chore
+
+- update to @capacitor/core 3.0.0-rc.1
+- update to @capacitor-community/sqlite 3.0.0-beta.13
+
+### Added Features
+
+- add `isSecretStored`, `setEncryptionSecret` & `changeEncryptionSecret` methods
+- update README.md & APIHook.md
+
+
 ## 2.0.1 (2021-05-01) CAPACITOR 3 NEXT
 
 ### Added Features

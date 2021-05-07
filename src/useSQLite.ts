@@ -141,6 +141,30 @@ export interface SQLiteHook extends  AvailableResult {
      */
     checkConnectionsConsistency(): Promise<Result>;
     /**
+     * Check if secure secret has been stored
+     * @returns Promise<Result>
+     * @since 2.0.2
+     */
+    isSecretStored(): Promise<Result>; 
+    /**
+     * Set an encrypted secret to secure storage
+     * To run only once
+     * Will migrate from GlobalSQLite secret when required
+     * @param passphrase 
+     * @returns Promise<void>
+     * @since 2.0.2
+     */
+     setEncryptionSecret(passphrase: string): Promise<void>;   
+    /**
+     * Change encrypted secret from secure storage
+     * Not to use to migrate from GlobalSQLite secret (run setEncryptionSecret)
+     * @param passphrase 
+     * @param oldpassphrase 
+     * @returns Promise<void>
+     * @since 2.0.2
+     */
+    changeEncryptionSecret(passphrase: string, oldpassphrase: string): Promise<void>; 
+     /**
      * Remove Json Listeners
      * @since 2.0.1
      */
@@ -491,9 +515,50 @@ export function useSQLite({
             if(r) {
                 return Promise.resolve(r);
             } else {
-                return Promise.reject('Error Json Object not valid');
+                return Promise.reject('Error in checkConnectionsConsistency');
             } 
         } catch (err) {
+            return Promise.reject(err);
+        }
+
+    }
+    const isSecretStored = async (): Promise<Result> => {
+        try {
+            const r = await mSQLite.isSecretStored();
+            if(r) {
+                return Promise.resolve(r);
+            } else {
+                return Promise.reject('Error in isSecretStored');
+            } 
+        } catch (err) {
+            return Promise.reject(err);
+        }
+
+    }
+    const setEncryptionSecret = async (passphrase: string): Promise<void> => {
+        if (passphrase == null || passphrase.length === 0) {
+            return Promise.reject(new Error('Must provide a passphrase'));
+        } 
+        try {
+            await mSQLite.setEncryptionSecret(passphrase);
+            return Promise.resolve();
+        } catch(err) {
+            return Promise.reject(err);
+        }
+
+    }
+    const changeEncryptionSecret = async (passphrase: string,
+        oldpassphrase: string): Promise<void> => {
+        if (passphrase == null || passphrase.length === 0) {
+            return Promise.reject(new Error('Must provide a passphrase'));
+        } 
+        if (oldpassphrase == null || oldpassphrase.length === 0) {
+            return Promise.reject(new Error('Must provide the old passphrase'));
+        } 
+        try {
+            await mSQLite.changeEncryptionSecret(passphrase, oldpassphrase);
+            return Promise.resolve();
+        } catch(err) {
             return Promise.reject(err);
         }
 
@@ -519,6 +584,9 @@ export function useSQLite({
             deleteOldDatabases: featureNotAvailableError,
             checkConnectionsConsistency: featureNotAvailableError,
             removeListeners: featureNotAvailableError,
+            isSecretStored: featureNotAvailableError,
+            setEncryptionSecret: featureNotAvailableError,
+            changeEncryptionSecret: featureNotAvailableError,             
             ...notAvailable
         };
     } else {
@@ -527,6 +595,7 @@ export function useSQLite({
             addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
             isConnection, isDatabase, getDatabaseList, addSQLiteSuffix,
             deleteOldDatabases, checkConnectionsConsistency,
-            removeListeners, isAvailable: true};
+            removeListeners, isSecretStored, setEncryptionSecret,
+            changeEncryptionSecret, isAvailable: true};
     }
 }

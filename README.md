@@ -69,6 +69,9 @@ npm install --save-dev vue-sqlite-hook@next
 | isJsonValid                 | ✅      | ✅   | 🚧       | ❌  |
 | copyFromAssets              | ✅      | ✅   | 🚧       | ❌  |
 | checkConnectionsConsistency | ✅      | ✅   | 🚧       | ❌  |
+| isSecretStored              | ✅      | ✅   | 🚧       | ❌  |
+| setEncryptionSecret         | ✅      | ✅   | 🚧       | ❌  |
+| changeEncryptionSecret      | ✅      | ✅   | 🚧       | ❌  |
 | removeListeners             | ✅      | ✅   | 🚧       | ❌  |
 
 
