@@ -1,3 +1,9 @@
+## 2.0.4 (2021-07-15) CAPACITOR 3 LATEST
+
+### Bug Fixes
+
+- Fix readme & changelog
+
 ## 2.0.3 (2021-07-15) CAPACITOR 3 LATEST
 
 ### Chore

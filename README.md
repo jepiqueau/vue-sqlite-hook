@@ -1,7 +1,7 @@
 <p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
 <h3 align="center">Vue Hook for @capacitor-community/sqlite</h3>
-<p align="center"><strong><code>vue-sqlite-hook@next</code></strong></p>
+<p align="center"><strong><code>vue-sqlite-hook@latest</code></strong></p>
 <br>
 <p align="center" style="font-size:50px;color:red"><strong>Capacitor 3</strong></p><br>
 <p align="center">
@@ -13,7 +13,7 @@
     <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/l/vue-sqlite-hook?style=flat-square" /></a>
 <br>
   <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/dw/vue-sqlite-hook?style=flat-square" /></a>
-  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/v/vue-sqlite-hook/next?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/v/vue-sqlite-hook?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -26,7 +26,7 @@ The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@la
 
 ## @LATEST REFACTOR 🚀 (Move to branch 2.9.x)
 
-The `refactor` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@previous` !!! The MAINTAINANCE is now STOPPED !!!
+The `refactor` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@refactor` !!! The MAINTAINANCE is now STOPPED !!!
 
 ## @INITIAL 🛑 (Move to branch 2.4.x)
 
