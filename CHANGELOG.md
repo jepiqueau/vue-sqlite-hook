@@ -1,3 +1,15 @@
+## 2.0.3 (2021-07-15) CAPACITOR 3 LATEST
+
+### Chore
+
+- update to @capacitor/core 3.1.1
+- update to @capacitor-community/sqlite 3.1.2-1
+
+### Bug Fixes
+
+- Fix readme & changelog
+- remove peerDependencies from package.json
+
 ## 2.0.2 (2021-05-07) CAPACITOR 3 NEXT
 
 ### Chore

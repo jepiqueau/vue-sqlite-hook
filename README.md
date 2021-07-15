@@ -3,7 +3,7 @@
 <h3 align="center">Vue Hook for @capacitor-community/sqlite</h3>
 <p align="center"><strong><code>vue-sqlite-hook@next</code></strong></p>
 <br>
-<p align="center" style="font-size:50px;color:red"><strong>Capacitor 3 🚧</strong></p><br>
+<p align="center" style="font-size:50px;color:red"><strong>Capacitor 3</strong></p><br>
 <p align="center">
   A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@next</code></strong> plugin in Vue or Ionic/Vue applications
 </p>
@@ -20,13 +20,13 @@
 </p>
 <br>
 
-## @NEXT For Capacitor 3 🚧 (Master)
+## @NEXT For Capacitor 3 (Master)
 
-The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@next`
+The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
 
 ## @LATEST REFACTOR 🚀 (Move to branch 2.9.x)
 
-The `refactor` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
+The `refactor` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@previous` !!! The MAINTAINANCE is now STOPPED !!!
 
 ## @INITIAL 🛑 (Move to branch 2.4.x)
 
