@@ -1,11 +1,11 @@
 <p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
-<h3 align="center">Vue Hook for @capacitor-community/sqlite</h3>
+<h3 align="center">Vue Hook for @capacitor-community/sqlite@web</h3>
 <p align="center"><strong><code>vue-sqlite-hook@latest</code></strong></p>
 <br>
 <p align="center" style="font-size:50px;color:red"><strong>Capacitor 3</strong></p><br>
 <p align="center">
-  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@latest</code></strong> plugin in Vue or Ionic/Vue applications
+  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@web</code></strong> plugin in Vue or Ionic/Vue applications
 </p>
 <br>
 <p align="center">
@@ -20,11 +20,11 @@
 </p>
 <br>
 
-## @NEXT For Capacitor 3 (Master)
+## @LATEST For Capacitor 3 (Main)
 
-The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
+The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@web`
 
-## @LATEST REFACTOR 🚀 (Move to branch 2.9.x)
+## @REFACTOR REFACTOR 🚀 (Move to branch 2.9.x)
 
 The `refactor` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@refactor` !!! The MAINTAINANCE is now STOPPED !!!
 
@@ -44,43 +44,44 @@ The `initial` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@initi
 ## Installation
 
 ```bash
-npm install --save @capacitor-community/sqlite@next
-npm install --save-dev vue-sqlite-hook@next
+npm install --save @capacitor-community/sqlite@web
+npm install --save-dev vue-sqlite-hook
 ```
 
 ## Supported methods
 
 | Name                        | Android | iOS | Electron | Web |
 | :-------------------------- | :------ | :-- | :------- | :-- |
-| echo                        | ✅      | ✅   | 🚧       | ❌  |
-| getPlatform                 | ✅      | ✅   | 🚧       | ❌  |
-| addUpgradeStatement         | ✅      | ✅   | 🚧       | ❌  |
-| createConnection            | ✅      | ✅   | 🚧       | ❌  |
-| retrieveConnection          | ✅      | ✅   | 🚧       | ❌  |
-| retrieveAllConnections      | ✅      | ✅   | 🚧       | ❌  |
-| closeConnection             | ✅      | ✅   | 🚧       | ❌  |
-| closeAllConnections         | ✅      | ✅   | 🚧       | ❌  |
-| isConnection                | ✅      | ✅   | 🚧       | ❌  |
-| isDatabase                  | ✅      | ✅   | 🚧       | ❌  |
-| getDatabaseList             | ✅      | ✅   | 🚧       | ❌  |
+| echo                        | ✅      | ✅   | 🚧       | ✅  |
+| getPlatform                 | ✅      | ✅   | 🚧       | ✅  |
+| getCapacitorSQLite          | ✅      | ✅   | 🚧       | ✅  |
+| addUpgradeStatement         | ✅      | ✅   | 🚧       | ✅  |
+| createConnection            | ✅      | ✅   | 🚧       | ✅  |
+| retrieveConnection          | ✅      | ✅   | 🚧       | ✅  |
+| retrieveAllConnections      | ✅      | ✅   | 🚧       | ✅  |
+| closeConnection             | ✅      | ✅   | 🚧       | ✅  |
+| closeAllConnections         | ✅      | ✅   | 🚧       | ✅  |
+| isConnection                | ✅      | ✅   | 🚧       | ✅  |
+| isDatabase                  | ✅      | ✅   | 🚧       | ✅  |
+| getDatabaseList             | ✅      | ✅   | 🚧       | ✅  |
 | addSQLiteSuffix             | ✅      | ✅   | 🚧       | ❌  |
 | deleteOldDatabases          | ✅      | ✅   | 🚧       | ❌  |
-| importFromJson              | ✅      | ✅   | 🚧       | ❌  |
-| isJsonValid                 | ✅      | ✅   | 🚧       | ❌  |
-| copyFromAssets              | ✅      | ✅   | 🚧       | ❌  |
-| checkConnectionsConsistency | ✅      | ✅   | 🚧       | ❌  |
+| importFromJson              | ✅      | ✅   | 🚧       | ✅  |
+| isJsonValid                 | ✅      | ✅   | 🚧       | ✅  |
+| copyFromAssets              | ✅      | ✅   | 🚧       | ✅  |
+| checkConnectionsConsistency | ✅      | ✅   | 🚧       | ✅  |
 | isSecretStored              | ✅      | ✅   | 🚧       | ❌  |
 | setEncryptionSecret         | ✅      | ✅   | 🚧       | ❌  |
 | changeEncryptionSecret      | ✅      | ✅   | 🚧       | ❌  |
-| removeListeners             | ✅      | ✅   | 🚧       | ❌  |
+| removeListeners             | ✅      | ✅   | 🚧       | ✅  |
 
 
 ## Supported listeners
 
 | Name             | Android | iOS | Electron | Web |
 | :--------------- | :------ | :-- | :------- | :-- |
-| onProgressImport | ✅      | ✅   | 🚧       | ❌  |
-| onProgressExport | ✅      | ✅   | 🚧       | ❌  |
+| onProgressImport | ✅      | ✅   | 🚧       | ✅  |
+| onProgressExport | ✅      | ✅   | 🚧       | ✅  |
 
 
 ## Documentation

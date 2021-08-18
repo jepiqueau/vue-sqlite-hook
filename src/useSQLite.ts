@@ -33,6 +33,13 @@ export interface SQLiteHook extends  AvailableResult {
      */
     getPlatform(): Promise<{platform: string}>;
     /**
+     * Get CapacitorSQLite plugin
+     * @returns Promise<{plugin: any}}>
+     * @since 2.0.5
+     */
+    getCapacitorSQLite(): Promise<{plugin: any}>;
+
+    /**
      * Add an Upgrade Statement to Update Database Version
      * @param dbName database name
      * @param upgrade upgrade statement
@@ -249,6 +256,12 @@ export function useSQLite({
     const getPlatform = async (): Promise<any> => {
         return {platform: platform};
     };
+    /**
+     *  Get CapacitorSQLite plugin
+     */
+    const getCapacitorSQLite = async (): Promise<any> => {
+        return {plugin: sqlitePlugin};
+    }
     /**
      * Create a Connection to Database
      * @param dbName string
@@ -568,6 +581,7 @@ export function useSQLite({
         return {
             echo: featureNotAvailableError,
             getPlatform: featureNotAvailableError,
+            getCapacitorSQLite: featureNotAvailableError,
             createConnection: featureNotAvailableError,
             closeConnection: featureNotAvailableError,
             retrieveConnection: featureNotAvailableError,
@@ -590,7 +604,7 @@ export function useSQLite({
             ...notAvailable
         };
     } else {
-        return {echo, getPlatform, createConnection, closeConnection,
+        return {echo, getPlatform, getCapacitorSQLite, createConnection, closeConnection,
             retrieveConnection, retrieveAllConnections, closeAllConnections,
             addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
             isConnection, isDatabase, getDatabaseList, addSQLiteSuffix,
