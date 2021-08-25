@@ -1,3 +1,10 @@
+## 2.0.6 (2021-08-25) CAPACITOR 3 LATEST
+
+### Chore
+
+- update to @capacitor/core 3.2.0
+- update to @capacitor-community/sqlite 3.2.0-5
+
 ## 2.0.5 (2021-08-18) CAPACITOR 3 LATEST
 
 ### Chore
