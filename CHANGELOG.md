@@ -1,3 +1,9 @@
+## 2.0.8 (2021-08-27) CAPACITOR 3 LATEST
+
+### Bug Fixes
+
+- Fix copyFromAssets
+
 ## 2.0.7 (2021-08-27) CAPACITOR 3 LATEST
 
 ### Chore

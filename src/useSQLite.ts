@@ -451,7 +451,6 @@ export function useSQLite({
      * @returns 
      */
     const copyFromAssets = async () : Promise<void> => {
-        const r = await mSQLite.copyFromAssets();
         try {
             await mSQLite.copyFromAssets();
             return Promise.resolve();
