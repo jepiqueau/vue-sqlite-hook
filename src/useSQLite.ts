@@ -210,17 +210,19 @@ export function useSQLite({
     const mSQLite = new SQLiteConnection(sqlitePlugin);
     // add listeners
     let importListener: any = null;
-    let exportListener: any = null;    
-    if(onProgressImport && sqlitePlugin) importListener =
-        sqlitePlugin.addListener('sqliteImportProgressEvent',
-        (e: any) => {
-            onProgressImport(e.progress);
-        });
-    if(onProgressExport && sqlitePlugin) exportListener =
-        sqlitePlugin.addListener('sqliteExportProgressEvent',
-        (e: any) => {
-            onProgressExport(e.progress);
-        });
+    let exportListener: any = null;
+    if(platform != "electron") {   
+        if(onProgressImport && sqlitePlugin) importListener =
+            sqlitePlugin.addListener('sqliteImportProgressEvent',
+            (e: any) => {
+                onProgressImport(e.progress);
+            });
+        if(onProgressExport && sqlitePlugin) exportListener =
+            sqlitePlugin.addListener('sqliteExportProgressEvent',
+            (e: any) => {
+                onProgressExport(e.progress);
+            });
+    }
 
     availableFeatures = {
         useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
@@ -230,8 +232,10 @@ export function useSQLite({
      * Remove Json Listeners
      */
     const removeListeners = async (): Promise<void> => {
-        importListener.remove();
-        exportListener.remove();
+        if(platform != "electron") {   
+            importListener.remove();
+            exportListener.remove();
+        }
     }
     /**
      * Echo value

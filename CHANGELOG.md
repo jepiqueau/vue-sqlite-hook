@@ -1,3 +1,14 @@
+## 2.0.7 (2021-08-27) CAPACITOR 3 LATEST
+
+### Chore
+
+- update to @capacitor-community/sqlite 3.2.0-6
+
+### Bug Fixes
+
+- Fix not use of Listeners for Electron platform
+- Fix readme & changelog
+
 ## 2.0.6 (2021-08-25) CAPACITOR 3 LATEST
 
 ### Chore
