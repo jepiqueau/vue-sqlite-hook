@@ -22,7 +22,7 @@
 
 ## @LATEST For Capacitor 3 (Main)
 
-The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@web`
+The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
 
 ## @REFACTOR REFACTOR 🚀 (Move to branch 2.9.x)
 
@@ -44,7 +44,7 @@ The `initial` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@initi
 ## Installation
 
 ```bash
-npm install --save @capacitor-community/sqlite@web
+npm install --save @capacitor-community/sqlite@latest
 npm install --save-dev vue-sqlite-hook
 ```
 
@@ -52,28 +52,30 @@ npm install --save-dev vue-sqlite-hook
 
 | Name                        | Android | iOS | Electron | Web |
 | :-------------------------- | :------ | :-- | :------- | :-- |
-| echo                        | ✅      | ✅   | 🚧       | ✅  |
-| getPlatform                 | ✅      | ✅   | 🚧       | ✅  |
-| getCapacitorSQLite          | ✅      | ✅   | 🚧       | ✅  |
-| addUpgradeStatement         | ✅      | ✅   | 🚧       | ✅  |
-| createConnection            | ✅      | ✅   | 🚧       | ✅  |
-| retrieveConnection          | ✅      | ✅   | 🚧       | ✅  |
-| retrieveAllConnections      | ✅      | ✅   | 🚧       | ✅  |
-| closeConnection             | ✅      | ✅   | 🚧       | ✅  |
-| closeAllConnections         | ✅      | ✅   | 🚧       | ✅  |
-| isConnection                | ✅      | ✅   | 🚧       | ✅  |
-| isDatabase                  | ✅      | ✅   | 🚧       | ✅  |
-| getDatabaseList             | ✅      | ✅   | 🚧       | ✅  |
-| addSQLiteSuffix             | ✅      | ✅   | 🚧       | ❌  |
-| deleteOldDatabases          | ✅      | ✅   | 🚧       | ❌  |
-| importFromJson              | ✅      | ✅   | 🚧       | ✅  |
-| isJsonValid                 | ✅      | ✅   | 🚧       | ✅  |
-| copyFromAssets              | ✅      | ✅   | 🚧       | ✅  |
-| checkConnectionsConsistency | ✅      | ✅   | 🚧       | ✅  |
-| isSecretStored              | ✅      | ✅   | 🚧       | ❌  |
-| setEncryptionSecret         | ✅      | ✅   | 🚧       | ❌  |
-| changeEncryptionSecret      | ✅      | ✅   | 🚧       | ❌  |
-| removeListeners             | ✅      | ✅   | 🚧       | ✅  |
+| echo                        | ✅      | ✅   | ✅       | ✅  |
+| getPlatform                 | ✅      | ✅   | ✅       | ✅  |
+| getCapacitorSQLite          | ✅      | ✅   | ✅       | ✅  |
+| addUpgradeStatement         | ✅      | ✅   | ✅       | ✅  |
+| createConnection            | ✅      | ✅   | ✅       | ✅  |
+| retrieveConnection          | ✅      | ✅   | ✅       | ✅  |
+| retrieveAllConnections      | ✅      | ✅   | ✅       | ✅  |
+| closeConnection             | ✅      | ✅   | ✅       | ✅  |
+| closeAllConnections         | ✅      | ✅   | ✅       | ✅  |
+| isConnection                | ✅      | ✅   | ✅       | ✅  |
+| isDatabase                  | ✅      | ✅   | ✅       | ✅  |
+| getDatabaseList             | ✅      | ✅   | ✅       | ✅  |
+| addSQLiteSuffix             | ✅      | ✅   | ❌       | ❌  |
+| deleteOldDatabases          | ✅      | ✅   | ❌       | ❌  |
+| importFromJson              | ✅      | ✅   | ✅       | ✅  |
+| isJsonValid                 | ✅      | ✅   | ✅       | ✅  |
+| copyFromAssets              | ✅      | ✅   | ✅       | ✅  |
+| checkConnectionsConsistency | ✅      | ✅   | ✅       | ✅  |
+| isSecretStored              | ✅      | ✅   | ❌       | ❌  |
+| setEncryptionSecret         | ✅      | ✅   | ❌       | ❌  |
+| changeEncryptionSecret      | ✅      | ✅   | ❌       | ❌  |
+| removeListeners             | ✅      | ✅   | ✅       | ✅  |
+| initWebStore                | ❌      | ❌   | ❌       | ✅  |
+| saveToStore                 | ❌      | ❌   | ❌       | ✅  |
 
 
 ## Supported listeners

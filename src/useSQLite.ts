@@ -20,6 +20,19 @@ export type SQLiteProps = {
  */
 export interface SQLiteHook extends  AvailableResult {
     /**
+     * Init the web store
+     * @returns Promise<void>
+     * @since 2.1.1
+     */
+    initWebStore(): Promise<void>;
+    /**
+        * Save the datbase to the web store
+        * @param database
+        * @returns Promise<void>
+        * @since 2.1.1
+        */
+    saveToStore(database: string): Promise<void>;
+     /**
      * Echo a value
      * @param value
      * @returns Promise<{value: string}>
@@ -201,33 +214,67 @@ export let availableFeatures: any;
  * useSQLite Hook
  */
 
-export function useSQLite({
-    onProgressImport,
-    onProgressExport
-}: SQLiteProps): SQLiteHook {
+export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
     const platform = Capacitor.getPlatform();
     const sqlitePlugin: any = CapacitorSQLite;
     const mSQLite = new SQLiteConnection(sqlitePlugin);
     // add listeners
     let importListener: any = null;
     let exportListener: any = null;
-    if(platform != "electron") {   
-        if(onProgressImport && sqlitePlugin) importListener =
-            sqlitePlugin.addListener('sqliteImportProgressEvent',
-            (e: any) => {
-                onProgressImport(e.progress);
-            });
-        if(onProgressExport && sqlitePlugin) exportListener =
-            sqlitePlugin.addListener('sqliteExportProgressEvent',
-            (e: any) => {
-                onProgressExport(e.progress);
-            });
+    if(platform != "electron") { 
+        if( onProgress ) { 
+            if(onProgress.onProgressImport && sqlitePlugin) importListener =
+                sqlitePlugin.addListener('sqliteImportProgressEvent',
+                (e: any) => {
+                    if(typeof onProgress.onProgressImport !== 'undefined')
+                        onProgress.onProgressImport(e.progress);
+                });
+            if(onProgress.onProgressExport && sqlitePlugin) exportListener =
+                sqlitePlugin.addListener('sqliteExportProgressEvent',
+                (e: any) => {
+                    if(typeof onProgress.onProgressExport !== 'undefined')
+                        onProgress.onProgressExport(e.progress);
+                });
+        }
     }
 
     availableFeatures = {
         useSQLite: isFeatureAvailable('CapacitorSQLite', 'useSQLite')
     }
-    
+    /**
+     * Initialize the Web Store
+     */
+     const initWebStore = async (): Promise<void> => {
+        if(platform != "web") { 
+            return Promise.reject(`Not implemented on platform ${platform}`);
+        }
+
+        try {
+            await mSQLite.initWebStore();
+            return Promise.resolve();
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+    /**
+     * Save the Database to store
+     * @param dbName string
+     */
+     const saveToStore = async (dbName: string): Promise<void> => {
+        if(platform != "web") { 
+            return Promise.reject(`Not implemented on platform ${platform}`);
+        }
+        if(dbName.length > 0) {
+            try {
+                await mSQLite.saveToStore(dbName);
+                return Promise.resolve();
+            } catch (err) {
+                return Promise.reject(err);
+            }
+        } else {
+            return Promise.reject('Must provide a database name');
+        }
+    };    
     /**
      * Remove Json Listeners
      */
@@ -371,7 +418,6 @@ export function useSQLite({
     };
     /**
      * Close All Connections to Databases
-     * @param dbName string
      */
     const closeAllConnections = async (): Promise<void> => {
         try {
@@ -582,6 +628,8 @@ export function useSQLite({
 
     if (!availableFeatures.useSQLite) {
         return {
+            initWebStore: featureNotAvailableError,
+            saveToStore: featureNotAvailableError,
             echo: featureNotAvailableError,
             getPlatform: featureNotAvailableError,
             getCapacitorSQLite: featureNotAvailableError,
@@ -613,6 +661,6 @@ export function useSQLite({
             isConnection, isDatabase, getDatabaseList, addSQLiteSuffix,
             deleteOldDatabases, checkConnectionsConsistency,
             removeListeners, isSecretStored, setEncryptionSecret,
-            changeEncryptionSecret, isAvailable: true};
+            changeEncryptionSecret, initWebStore, saveToStore, isAvailable: true};
     }
 }

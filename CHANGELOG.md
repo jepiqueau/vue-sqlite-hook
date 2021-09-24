@@ -1,3 +1,18 @@
+## 2.1.1 (2021-09-24)
+
+### Chore
+
+- update to @capacitor/core 3.2.3
+- update to @capacitor-community/sqlite 3.2.3-1
+
+### Added Features
+
+- add `initWebStore` and `saveToStore` methods to Web platform
+
+### Bug Fixes
+
+- Fix useSQLite() when no listeners given
+
 ## 2.1.0 (2021-09-17)
 
 ### Chore
