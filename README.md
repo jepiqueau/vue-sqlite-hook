@@ -64,6 +64,7 @@ npm install --save-dev vue-sqlite-hook
 | isConnection                | ✅      | ✅   | ✅       | ✅  |
 | isDatabase                  | ✅      | ✅   | ✅       | ✅  |
 | getDatabaseList             | ✅      | ✅   | ✅       | ✅  |
+| getMigratableDbList         | ✅      | ✅   | ❌       | ❌  |
 | addSQLiteSuffix             | ✅      | ✅   | ❌       | ❌  |
 | deleteOldDatabases          | ✅      | ✅   | ❌       | ❌  |
 | importFromJson              | ✅      | ✅   | ✅       | ✅  |
