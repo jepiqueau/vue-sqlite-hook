@@ -1,6 +1,6 @@
 {
   "name": "vue-sqlite-hook",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Vue Hook for @capacitor-community/sqlite",
   "repository": {
     "type": "git",
