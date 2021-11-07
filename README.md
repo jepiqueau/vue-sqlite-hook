@@ -5,7 +5,7 @@
 <br>
 <p align="center" style="font-size:50px;color:red"><strong>Capacitor 3</strong></p><br>
 <p align="center">
-  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@web</code></strong> plugin in Vue or Ionic/Vue applications
+  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@latest</code></strong> plugin in Vue or Ionic/Vue applications
 </p>
 <br>
 <p align="center">

@@ -120,10 +120,11 @@ export interface SQLiteHook extends  AvailableResult {
     isJsonValid(jsonstring: string): Promise<Result>;
     /**
      * Copy databases from assets to application database folder
+     * @param overwrite // since 2.1.3
      * @returns Promise<void>
      * @since 2.0.0
      */
-    copyFromAssets(): Promise<void>;
+    copyFromAssets(overwrite?: boolean): Promise<void>;
     /**
      * Check if a database exists
      * @param database
@@ -505,9 +506,10 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
      * 
      * @returns 
      */
-    const copyFromAssets = async () : Promise<void> => {
+    const copyFromAssets = async (overwrite?: boolean) : Promise<void> => {
+        const mOverwrite = overwrite!= null ? overwrite : true;
         try {
-            await mSQLite.copyFromAssets();
+            await mSQLite.copyFromAssets(mOverwrite);
             return Promise.resolve();
         } catch (err) {
             return Promise.reject(err);

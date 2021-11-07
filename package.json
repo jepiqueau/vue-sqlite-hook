@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@capacitor-community/sqlite": "^3.2.4",
-    "@capacitor/core": "^3.2.4",
+    "@capacitor-community/sqlite": "^3.2.5",
+    "@capacitor/core": "^3.2.5",
     "@capacitor/docgen": "0.0.17",
     "@types/jest": "^27.0.2",
     "@vue/cli-plugin-babel": "next",
