@@ -1,3 +1,9 @@
+## 2.1.4 (2021-11-08)
+
+### Bug Fixes
+
+- Fix main and typings in package.json
+
 ## 2.1.3 (2021-11-07)
 
 ### Chore

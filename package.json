@@ -13,8 +13,8 @@
     "Database",
     "SQLite"
   ],
-  "main": "dist/esm/index.js",
-  "typings": "dist/esm/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "npm run clean && npm run transpile && npm run copy-package",
