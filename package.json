@@ -30,18 +30,18 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.20"
+    "vue": "^3.2.26"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@capacitor-community/sqlite": "^3.2.5",
-    "@capacitor/core": "^3.2.5",
+    "@capacitor-community/sqlite": "^3.3.3-1",
+    "@capacitor/core": "^3.3.3",
     "@capacitor/docgen": "0.0.17",
     "@types/jest": "^27.0.2",
     "@vue/cli-plugin-babel": "next",
     "@vue/cli-plugin-eslint": "next",
-    "@vue/cli-service": "^4.1.1",
-    "@vue/compiler-sfc": "^3.0.11",
+    "@vue/cli-service": "^4.5.15",
+    "@vue/compiler-sfc": "^3.2.26",
     "eslint": "^7.25.0",
     "eslint-plugin-vue": "^7.9.0",
     "jest": "^27.3.0",

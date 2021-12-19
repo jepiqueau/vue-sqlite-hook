@@ -77,6 +77,12 @@ npm install --save-dev vue-sqlite-hook
 | removeListeners             | ✅      | ✅   | ✅       | ✅  |
 | initWebStore                | ❌      | ❌   | ❌       | ✅  |
 | saveToStore                 | ❌      | ❌   | ❌       | ✅  |
+| getNCDatabasePath           | ✅      | ✅   | ❌       | ❌  |
+| createNCConnection          | ✅      | ✅   | ❌       | ❌  |
+| closeNCConnection           | ✅      | ✅   | ❌       | ❌  |
+| retrieveNCConnection        | ✅      | ✅   | ❌       | ❌  |
+| isNCConnection              | ✅      | ✅   | ❌       | ❌  |
+| isNCDatabase                | ✅      | ✅   | ❌       | ❌  |
 
 
 ## Supported listeners
