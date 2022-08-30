@@ -3,13 +3,13 @@
 <h3 align="center">Vue Hook for @capacitor-community/sqlite@web</h3>
 <p align="center"><strong><code>vue-sqlite-hook@latest</code></strong></p>
 <br>
-<p align="center" style="font-size:50px;color:red"><strong>Capacitor 3</strong></p><br>
+<p align="center" style="font-size:50px;color:red"><strong>Capacitor 4</strong></p><br>
 <p align="center">
   A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@latest</code></strong> plugin in Vue or Ionic/Vue applications
 </p>
 <br>
 <p align="center">
-    <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
+    <img src="https://img.shields.io/maintenance/yes/2022?style=flat-square" />
     <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/l/vue-sqlite-hook?style=flat-square" /></a>
 <br>
   <a href="https://www.npmjs.com/package/vue-sqlite-hook"><img src="https://img.shields.io/npm/dw/vue-sqlite-hook?style=flat-square" /></a>
@@ -20,9 +20,13 @@
 </p>
 <br>
 
-## @LATEST For Capacitor 3 (Main)
+## @LATEST For Capacitor 4 (Main)
 
-The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
+The `Capacitor4` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@latest`
+
+## For Capacitor 3 (v2.1.8)
+
+The `Capacitor3` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@2.1.8t`
 
 ## @REFACTOR REFACTOR 🚀 (Move to branch 2.9.x)
 
@@ -74,6 +78,7 @@ npm install --save-dev vue-sqlite-hook
 | isSecretStored              | ✅      | ✅   | ❌       | ❌  |
 | setEncryptionSecret         | ✅      | ✅   | ❌       | ❌  |
 | changeEncryptionSecret      | ✅      | ✅   | ❌       | ❌  |
+| clearEncryptionSecret       | ✅      | ✅   | ❌       | ❌  |
 | removeListeners             | ✅      | ✅   | ✅       | ✅  |
 | initWebStore                | ❌      | ❌   | ❌       | ✅  |
 | saveToStore                 | ❌      | ❌   | ❌       | ✅  |
