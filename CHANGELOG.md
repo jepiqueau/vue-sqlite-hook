@@ -1,3 +1,9 @@
+## 3.0.1 (2022-08-30)
+
+### Bug Fixes
+
+- fix the peer-dependencies in package.json
+
 ## 3.0.0 (2022-08-30)
 
 ### Chore

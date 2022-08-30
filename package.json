@@ -28,7 +28,6 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "@capacitor-community/sqlite": "^4.0.0",
     "@capacitor/core": "^4.0.0",
     "vue": "^3.0.0"
   },
