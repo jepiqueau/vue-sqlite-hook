@@ -66,25 +66,28 @@ export interface SQLiteHook extends  AvailableResult {
      * @param encrypted
      * @param mode
      * @param version
+     * @param readonly since 3.0.2
      * @returns Promise<SQLiteDBConnection>
      * @since 2.0.0
      */
     createConnection(database: string, encrypted?: boolean, mode?: string,
-                     version?: number,): Promise<SQLiteDBConnection>;
+                     version?: number, readonly?: boolean): Promise<SQLiteDBConnection>;
     /**
      * Check if a connection exists
      * @param database
+     * @param readonly since 3.0.2
      * @returns Promise<Result>
      * @since 2.0.0
      */
-     isConnection(database: string): Promise<Result>;
+     isConnection(database: string, readonly?: boolean): Promise<Result>;
      /**
      * Retrieve an existing database connection
      * @param database
+     * @param readonly since 3.0.2
      * @returns Promise<SQLiteDBConnection>
      * @since 2.0.0
      */
-    retrieveConnection(database: string): Promise<SQLiteDBConnection>;
+    retrieveConnection(database: string, readonly?: boolean): Promise<SQLiteDBConnection>;
     /**
      * Retrieve all database connections
      * @returns Promise<Map<string, SQLiteDBConnection>>
@@ -94,10 +97,11 @@ export interface SQLiteHook extends  AvailableResult {
     /**
      * Close a database connection
      * @param database
+     * @param readonly since 3.0.2
      * @returns Promise<void>
      * @since 2.0.0
      */
-    closeConnection(database: string): Promise<void>;
+    closeConnection(database: string, readonly?: boolean): Promise<void>;
     /**
      * Close all database connections
      * @returns Promise<void>
@@ -258,10 +262,8 @@ export interface MySet {
 }
 
 export interface VersionUpgrade {
-    fromVersion: number;
     toVersion: number;
-    statement: string;
-    set?: MySet[]; 
+    statements: string[];
 }
 
 export interface Result {
@@ -376,12 +378,14 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
     /**
      * Create a Connection to Database
      * @param dbName string
-     * @param _encrypted boolean optional 
-     * @param _mode string optional
+     * @param encrypted boolean optional 
+     * @param mode string optional
      * @param version number optional
+     * @param readonly boolean optional since 3.0.2
      */  
     const createConnection = async (dbName: string, encrypted?: boolean,
-                                    mode?: string, version?: number):
+                                    mode?: string, version?: number,
+                                    readonly?: boolean):
                                     Promise<SQLiteDBConnection> => {
         if (dbName == null || dbName.length === 0) {
             return Promise.reject(new Error('Must provide a database name'));
@@ -390,10 +394,11 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
         const mVersion: number = version ? version : 1;
         const mEncrypted: boolean = encrypted ? encrypted : false;
         const mMode: string = mode ? mode : "no-encryption";
+        const mReadonly: boolean = readonly ? readonly : false;
 
         try {
             const r = await mSQLite.createConnection(
-                    mDatabase, mEncrypted, mMode, mVersion);
+                    mDatabase, mEncrypted, mMode, mVersion, mReadonly);
                 if(r) {
                     return Promise.resolve(r);
                 } else {
@@ -406,11 +411,14 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
     /**
      * Close the Connection to the Database
      * @param dbName string
+     * @param readonly boolean optional since 3.0.2
      */
-    const closeConnection = async (dbName: string): Promise<void> => {
+    const closeConnection = async (dbName: string,
+                                   readonly?: boolean): Promise<void> => {
+        const mReadonly: boolean = readonly ? readonly : false;
         if(dbName.length > 0) {
             try {
-                await mSQLite.closeConnection(dbName);
+                await mSQLite.closeConnection(dbName, mReadonly);
                 return Promise.resolve();
             } catch (err) {
                 return Promise.reject(err);
@@ -422,11 +430,14 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
     /**
      * Check if the Connection to the Database exists
      * @param dbName string
+     * @param readonly boolean optional since 3.0.2
      */
-    const isConnection = async (dbName: string): Promise<Result> => {
-        if(dbName.length > 0) {
+    const isConnection = async (dbName: string,
+                                readonly?: boolean): Promise<Result> => {
+            const mReadonly: boolean = readonly ? readonly : false;
+            if(dbName.length > 0) {
             try {
-                const r = await mSQLite.isConnection(dbName);
+                const r = await mSQLite.isConnection(dbName, mReadonly);
                 if(r) {
                         return Promise.resolve(r);
                 } else {
@@ -443,11 +454,14 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
     /**
      * Retrieve a Connection to the Database
      * @param dbName string
+     * @param readonly boolean optional since 3.0.2
      */
-    const retrieveConnection = async (dbName: string): Promise<SQLiteDBConnection> => {
-        if(dbName.length > 0) {
+    const retrieveConnection = async (dbName: string,
+                                      readonly?: boolean): Promise<SQLiteDBConnection> => {
+            const mReadonly: boolean = readonly ? readonly : false;
+            if(dbName.length > 0) {
             try {
-                const r = await mSQLite.retrieveConnection(dbName);
+                const r = await mSQLite.retrieveConnection(dbName, mReadonly);
                 if(r) {
                     return Promise.resolve(r);
                 } else {
@@ -531,19 +545,17 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
         if(upgrade === null) {
             return Promise.reject(new Error("Must provide an upgrade statement"));
         }
-        if(upgrade.fromVersion === null || upgrade.toVersion === null
-            || upgrade.statement === null) {
+        if( upgrade.toVersion === null
+            || upgrade.statements === null) {
                 let msg = "Must provide an upgrade statement with ";
-                msg += "fromVersion & toVersion & statement"
+                msg += "toVersion & statements"
                 return Promise.reject(msg);
             }
 
         if(dbName.length > 0) {
             try {
                 await mSQLite
-                .addUpgradeStatement(dbName, upgrade.fromVersion,
-                                    upgrade.toVersion, upgrade.statement,
-                                    upgrade.set);
+                .addUpgradeStatement(dbName, upgrade.toVersion, upgrade.statements);
                 return Promise.resolve();
             } catch (err) {
                 return Promise.reject(err);

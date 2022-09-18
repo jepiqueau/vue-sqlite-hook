@@ -59,9 +59,11 @@ jest.mock('@capacitor-community/sqlite', () => {
                 createConnection: async (dbName: string,
                                          encrypted?: boolean,
                                          mode?: string,
-                                         version?: number): Promise<SQLiteDBConnection> => {
-                        let dbConn: SQLiteDBConnection = new 
-                                            SQLiteDBConnection(dbName,CapacitorSQLite)
+                                         version?: number,
+                                         readonly?: boolean): Promise<SQLiteDBConnection> => {
+                    const mReadonly = readonly ? readonly : false;
+                    let dbConn: SQLiteDBConnection = new 
+                        SQLiteDBConnection(dbName,mReadonly,CapacitorSQLite)
                         if(dbConn != null) {
                             connDict.set(dbName,dbConn)
                             mIsConnection = true;
@@ -70,7 +72,8 @@ jest.mock('@capacitor-community/sqlite', () => {
                             return Promise.reject();
                         }                  
                 },
-                retrieveConnection: async (dbName: string): Promise<SQLiteDBConnection> => {
+                retrieveConnection: async (dbName: string,
+                                           readonly?: boolean): Promise<SQLiteDBConnection> => {
                     if(mIsConnection) {
                         if(connDict.has(dbName)) {
                             const conn: any = connDict.get(dbName);
@@ -82,7 +85,8 @@ jest.mock('@capacitor-community/sqlite', () => {
                         return Promise.reject("No connection available");
                     }
                 },
-                closeConnection: async (dbName: string): Promise<void> => {
+                closeConnection: async (dbName: string,
+                                        readonly?: boolean): Promise<void> => {
                     if(mIsConnection) {
                         if(connDict.has(dbName)) {
                             connDict.delete(dbName);

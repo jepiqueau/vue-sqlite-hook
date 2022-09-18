@@ -1,3 +1,13 @@
+## 3.0.2 (2022-09-18)
+
+### Added Features
+
+- add readonly to connection 
+
+### Bug Fixes
+
+- Fix addUpgradeStatement
+
 ## 3.0.1 (2022-08-30)
 
 ### Bug Fixes
