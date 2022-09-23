@@ -1,5 +1,5 @@
 import { Capacitor } from '@capacitor/core';
-import { AvailableResult, notAvailable } from './util/models';
+import { AvailableResult, notAvailable, FeatureNotAvailableError } from './util/models';
 import { isFeatureAvailable, featureNotAvailableError } from './util/feature-check';
 import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capEchoResult,
          capSQLiteChanges, capSQLiteValues, capNCDatabasePathResult } from '@capacitor-community/sqlite';
@@ -129,6 +129,14 @@ export interface SQLiteHook extends  AvailableResult {
      * @since 2.0.0
      */
     copyFromAssets(overwrite?: boolean): Promise<void>;
+    /**
+     * Get databases from HTTP request
+     * @param url 
+     * @param overwrite
+     * @since 3.0.3
+     */
+    getFromHTTPRequest(url: string, overwrite?: boolean): Promise<void>;
+
     /**
      * Check if a database exists
      * @param database
@@ -565,13 +573,29 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
         }
     };
     /**
-     * 
+     * Copy databases from assets folder
+     * @param overwrite 
      * @returns 
      */
     const copyFromAssets = async (overwrite?: boolean) : Promise<void> => {
         const mOverwrite = overwrite!= null ? overwrite : true;
         try {
             await mSQLite.copyFromAssets(mOverwrite);
+            return Promise.resolve();
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+    /**
+     * Get databases from HTTP request
+     * @param url
+     * @param overwrite 
+     * @returns 
+     */
+     const getFromHTTPRequest = async (url: string, overwrite?: boolean) : Promise<void> => {
+        const mOverwrite = overwrite!= null ? overwrite : true;
+        try {
+            await mSQLite.getFromHTTPRequest(url, mOverwrite);
             return Promise.resolve();
         } catch (err) {
             return Promise.reject(err);
@@ -900,6 +924,7 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
             importFromJson: featureNotAvailableError,
             isJsonValid: featureNotAvailableError,
             copyFromAssets: featureNotAvailableError,
+            getFromHTTPRequest: featureNotAvailableError,
             isConnection: featureNotAvailableError,
             isDatabase: featureNotAvailableError,
             getNCDatabasePath: featureNotAvailableError,
@@ -923,7 +948,7 @@ export function useSQLite(onProgress? : SQLiteProps): SQLiteHook {
     } else {
         return {echo, getPlatform, getCapacitorSQLite, createConnection, closeConnection,
             retrieveConnection, retrieveAllConnections, closeAllConnections,
-            addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets,
+            addUpgradeStatement, importFromJson, isJsonValid, copyFromAssets, getFromHTTPRequest,
             isConnection, isDatabase, getDatabaseList, getMigratableDbList, addSQLiteSuffix,
             deleteOldDatabases, checkConnectionsConsistency, removeListeners,
             isSecretStored, setEncryptionSecret, changeEncryptionSecret, clearEncryptionSecret,

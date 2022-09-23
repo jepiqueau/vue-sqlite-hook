@@ -14,11 +14,11 @@ const featureMap = {
   }
 }
 
-export function isFeatureAvailable<
+export async function isFeatureAvailable<
 T extends typeof featureMap,
 PluginKeys extends keyof NonNullable<T>,
 FeatureKeys extends keyof NonNullable<NonNullable<T>[PluginKeys]>>
-(plugin: PluginKeys, method: FeatureKeys): boolean {
+(plugin: PluginKeys, method: FeatureKeys): Promise<boolean> {
   if(Capacitor.isPluginAvailable(plugin as string) && !!(featureMap as any)[plugin][method][Capacitor.platform!]) {
       return true;
     }

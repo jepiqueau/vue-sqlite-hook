@@ -88,7 +88,7 @@ npm install --save-dev vue-sqlite-hook
 | retrieveNCConnection        | ✅      | ✅   | ❌       | ❌  |
 | isNCConnection              | ✅      | ✅   | ❌       | ❌  |
 | isNCDatabase                | ✅      | ✅   | ❌       | ❌  |
-
+| getFromHTTPRequest          | ✅      | ✅   | ✅       | ✅  |
 
 ## Supported listeners
 
