@@ -139,9 +139,9 @@ jest.mock('@capacitor-community/sqlite', () => {
 });
 it('Check CapacitorSQLite available for web platform', async () => {
     const capacitorMock = (Capacitor as any);
-    await capacitorMock.init(false, 'web')
+    await capacitorMock.init(true, 'web')
     const { isAvailable } = useSQLite({});
-    expect(isAvailable).toBe(false);   
+    expect( isAvailable).toBe(true);   
 
 });
 
