@@ -1,11 +1,11 @@
 <p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
 <h3 align="center">Vue Hook for @capacitor-community/sqlite@web</h3>
-<p align="center"><strong><code>vue-sqlite-hook@latest</code></strong></p>
+<p align="center"><strong><code>vue-sqlite-hook@next</code></strong></p>
 <br>
-<p align="center" style="font-size:50px;color:red"><strong>Capacitor 4</strong></p><br>
+<p align="center" style="font-size:50px;color:red"><strong>Capacitor 5</strong></p><br>
 <p align="center">
-  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@latest</code></strong> plugin in Vue or Ionic/Vue applications
+  A Vue Hook to help Capacitor developpers to use <strong><code>@capacitor-community/sqlite@next</code></strong> plugin in Vue or Ionic/Vue applications
 </p>
 <br>
 <p align="center">
@@ -19,6 +19,10 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 <br>
+
+## @Next For Capacitor 5 (Next5)
+
+The `Capacitor5` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@next`
 
 ## @LATEST For Capacitor 4 (Main)
 
@@ -48,8 +52,8 @@ The `initial` vue-sqlite-hook interfacing the `@capacitor-community/sqlite@initi
 ## Installation
 
 ```bash
-npm install --save @capacitor-community/sqlite@latest
-npm install --save-dev vue-sqlite-hook
+npm install --save @capacitor-community/sqlite@next
+npm install --save-dev vue-sqlite-hook@next
 ```
 
 ## Supported methods
